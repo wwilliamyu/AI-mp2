@@ -40,8 +40,6 @@ int main(int argc, char** args) {
 		string line;
 		int row = 0;
 		while (getline(gridfile, line)) {
-			if (line.size() == 1)
-				continue;
 			vector<sudokuCell*> curLine;
 			for (int col = 0; col < 9; col++) {
 				sudokuCell * curCell = new sudokuCell;
@@ -54,11 +52,16 @@ int main(int argc, char** args) {
 			sudokuGrid.push_back(curLine);
 			cout << curLine.size()<<endl;
 		}
+		cout << "the grid file looks like this: "<<endl;
 		for (int i =0; i<9; i++) {
 			for(int j = 0; j<9; j++) {
 				cout << sudokuGrid[i][j]->value;
 			}
 			cout << endl;
+		}
+		cout << "the word bank looks like this: "<<endl;
+		while (getline(wordbank, line)) {
+			cout << line << endl;
 		}
 		
 	} else {
