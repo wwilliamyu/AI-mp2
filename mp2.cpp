@@ -9,16 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "sudoku.h"
 
 using namespace std;
-
-
-class sudokuCell {
-	public:
-		char value;
-		int x;
-		int y;
-};
 
 /** 
 * Main function
@@ -29,41 +22,34 @@ class sudokuCell {
 * for game of breakthrough
 */
 int main(int argc, char** args) {
-	if (args[1][0] == 's') {
-		if (argc != 4) {
-			cout << "Wrong input format. Expected ./mp2 sudoku [gridfile] [wordbank]"<<endl;
+	if (argc != 4) {
+			cout << "Wrong input format. Expected ./mp2 [s] [gridfile] [wordbank]"<<endl;
 			return 1;
-		}
+	}
+	if (args[1][0] == 's') {
 		ifstream gridfile(args[2]);
 		ifstream wordbank(args[3]);
-		vector < vector<sudokuCell*> > sudokuGrid;
+		sudokuCell* sudokuGrid[9][9];
+		vector < word * > words;
 		string line;
 		int row = 0;
 		while (getline(gridfile, line)) {
-			vector<sudokuCell*> curLine;
 			for (int col = 0; col < 9; col++) {
 				sudokuCell * curCell = new sudokuCell;
 				curCell->x = col;
 				curCell->y = row;
 				curCell->value = line[col];
-				curLine.push_back(curCell);
+				sudokuGrid[row][col] = curCell;
 			}
 			row++;
-			sudokuGrid.push_back(curLine);
-			cout << curLine.size()<<endl;
-		}
-		cout << "the grid file looks like this: "<<endl;
-		for (int i =0; i<9; i++) {
-			for(int j = 0; j<9; j++) {
-				cout << sudokuGrid[i][j]->value;
-			}
-			cout << endl;
 		}
 		cout << "the word bank looks like this: "<<endl;
 		while (getline(wordbank, line)) {
-			cout << line << endl;
+			word * curWord = new word;
+			curWord->wordString = line;
+			words.push_back(curWord);
 		}
-		
+		fillSudoku(sudokuGrid, words);
 	} else {
 
 	}

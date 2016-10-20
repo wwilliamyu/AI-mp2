@@ -1,6 +1,5 @@
 EXE = mp2
-# OBJS = mp1.cpp bfs.o dfs.o greedy_search.o astar.o amul.o
-OBJS = mp2.cpp
+OBJS = mp2.cpp sudoku.o
 
 COMPILER = g++
 COMPILER_OPTS = -c -g -std=c++11 -Wall -pedantic -Werror
@@ -11,8 +10,8 @@ all : $(EXE)
 $(EXE) : $(OBJS)
 	$(LINKER) $(OBJS) -o $(EXE)
 
-# amul.o : amul.h amul.cpp
-	# $(COMPILER) $(COMPILER_OPTS) amul.cpp
+sudoku.o : sudoku.h sudoku.cpp
+	$(COMPILER) $(COMPILER_OPTS) sudoku.cpp
 	
 clean :
 	-rm -f *.o $(EXE)
