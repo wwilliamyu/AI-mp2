@@ -43,12 +43,15 @@ int main(int argc, char** args) {
 			}
 			row++;
 		}
-		cout << "the word bank looks like this: "<<endl;
 		while (getline(wordbank, line)) {
 			word * curWord = new word;
 			curWord->wordString = line;
+			if (curWord->wordString[curWord->wordString.length()-1] == 13)
+				curWord->wordString.pop_back();
+			transform(curWord->wordString.begin(), curWord->wordString.end(), curWord->wordString.begin(), ::toupper);
 			words.push_back(curWord);
 		}
+		cout << "start to fill the sudoku!!" <<endl;
 		fillSudoku(sudokuGrid, words);
 	} else {
 
