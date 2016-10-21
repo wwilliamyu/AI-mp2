@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include "sudoku.h"
+#include "chess.h"
 
 using namespace std;
 
