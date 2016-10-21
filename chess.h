@@ -13,22 +13,17 @@
 #include <math.h>
 
 using namespace std;
-
-class sudokuCell {
-	public:
-
-};
-
 struct piece {
 	int x=0;
 	int y=0;
 	char color;
 };
 
-class backtrack {
+struct state {
+	std::vector<piece> v;
+
+
 
 };
 
-bool fillSudoku( sudokuCell* sudokuGrid[9][9], vector<word*> words);
 
-bool isAvailable( sudokuCell* sudokuGrid[9][9], int row, int col, char curChar);
