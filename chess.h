@@ -11,20 +11,27 @@
 #include <math.h>
 
 using namespace std;
-struct piece {
-	int x;
-	int y;
-	char color;
-};
 
+const int boardsize=8;
 struct state {
-	std::vector<piece*> v;
+	std::vector<std::vector<int>> maze;
 	int value;
 };
 class chess
 {
 public:
-	chess();
+	chess(){
+		state first_state;
+		y=0;
+		for(int x=0;x<16;x++)
+		{
+			piece newone=
+		}
+		y=1;
+		y=14;
+		y=15;
+	};
+
 	~chess();
 	std::vector<state> states;	
 	void initialize();
