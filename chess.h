@@ -12,14 +12,14 @@
 
 using namespace std;
 struct piece {
-	int x=0;
-	int y=0;
+	int x;
+	int y;
 	char color;
 };
 
 struct state {
 	std::vector<piece*> v;
-	int value=0;
+	int value;
 };
 class chess
 {
@@ -28,7 +28,7 @@ public:
 	~chess();
 	std::vector<state> states;	
 	void initialize();
-	void tree_construction;
+	void tree_construction();
 
 	// return 0 means game not finished, else finished
 	int make_decision();
