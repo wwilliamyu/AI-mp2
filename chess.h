@@ -15,6 +15,26 @@ using namespace std;
 const int boardsize=8;
 struct state {
 	std::vector<std::vector<int>> maze;
+	state(){
+		int ** maze= new int*[16];
+		for(int y=0;y<16;y++)
+		{
+			for(int x=0;x<16;x++)
+			{
+				// if maze[y][x]=0, then black, else white, 2 means nothing
+				maze[y][x]=2;
+				if(y==0||y==1)
+				{
+					maze[y][x]=0;
+				}
+				if(y==14||y==15)
+				{
+					maze[y][x]=1;
+				}
+			}
+
+		}
+	}
 	int value;
 };
 class chess
@@ -22,14 +42,7 @@ class chess
 public:
 	chess(){
 		state first_state;
-		y=0;
-		for(int x=0;x<16;x++)
-		{
-			piece newone=
-		}
-		y=1;
-		y=14;
-		y=15;
+		states.push_back(first_state);
 	};
 
 	~chess();
