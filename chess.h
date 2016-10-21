@@ -20,10 +20,20 @@ struct piece {
 };
 
 struct state {
-	std::vector<piece> v;
+	std::vector<piece*> v;
+	int value=0;
+};
+class chess
+{
+public:
+	chess();
+	~chess();
+	std::vector<state> states;	
+	void initialize();
+	void tree_construction;
 
-
+	// return 0 means game not finished, else finished
+	int make_decision();
 
 };
-
 
