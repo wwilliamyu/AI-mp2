@@ -1,5 +1,6 @@
 #ifndef _CHESS_H_
 #define _CHESS_H_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -18,63 +19,66 @@ const int boardsize = 8;
 
 
 
-class chess
-{
+class chess {
+
 public:
-	chess(){
-		cout<<"constructing state"<<endl;
+
+	chess() {
+		cout << "constructing state" << endl;
 		state first_state;
 		// current_state=first_state;
 	};
 
 	struct state {
-	int** maze;
+	int ** board;
 	int value;
+
 	state() {
-		maze = new int*[16];
-		for (int y = 0; y < 16; y++) {
-			maze[y]=new int[16];
-			for (int x = 0; x < 16; x++) {
-				// if maze[y][x]=0, then white, else black, 2 means nothing
-				maze[y][x]=2;
+		board = new int*[8];
+		for (int y = 0; y < 8; y++) {
+			board[y] = new int[8];
+			for (int x = 0; x < 8; x++) {
+				// if board[y][x]=0, then white, else black, 2 means nothing
+				board[y][x] = 2;
 				if (y == 0 || y == 1) {
-					maze[y][x] = 0;
+					board[y][x] = 0;
 				}
-				if (y == 14 || y == 15) {
-					maze[y][x] = 1;
+				if (y == 6 || y == 7) {
+					board[y][x] = 1;
 				}
 			}
 		}
 		// #if DEBUG
-			for(int y=0;y<16;y++)
-			{
-				for(int x=0;x<16;x++)
-				{
-					if(maze[y][x]==2)
-					cout<<' ';
+			for (int y = 0; y < 8; y++) {
+				for (int x = 0; x < 8; x++) {
+					if (board[y][x] == 2)
+						cout << ' ';
 					else
-						cout<<maze[y][x];
+						cout << board[y][x];
 				}
-				cout<<endl;
+				cout << endl;
 			}
 		// #endif
 		
 	}
 
-	~state(){
-		for(int y=0;y<16;y++)
+	~state() {
+		for (int y = 0; y < 8; y++)
 		{
-			delete maze[y];	
+			delete board[y];	
 		}
-		delete maze;
+		delete board;
 	}
-	std::vector<state> next_states;
+
+	vector<state> next_states;
 
 };
 	// state root_node;
-	void tree_construction();
+	void tree_construction(state curr_state, int depth, int player);
+
 	// return 0 means game not finished, else finished
 	int make_decision(state cur);
+
 private:
 	void construct(int depth,state);
 
