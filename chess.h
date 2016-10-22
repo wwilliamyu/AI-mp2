@@ -12,7 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
+#define DEBUG
 using namespace std;
 
 const int boardsize = 8;
@@ -48,18 +48,22 @@ public:
 				}
 			}
 		}
-		// #if DEBUG
-			for (int y = 0; y < 8; y++) {
-				for (int x = 0; x < 8; x++) {
-					if (board[y][x] == 2)
-						cout << ' ';
-					else
-						cout << board[y][x];
-				}
-				cout << endl;
+
+
+
+	#ifdef DEBUG
+		for(int y=0;y<16;y++)
+		{
+			for(int x=0;x<16;x++)
+			{
+				if(maze[y][x]==2)
+				cout<<' ';
+				else
+					cout<<maze[y][x];
 			}
-		// #endif
-		
+			cout<<endl;
+		}
+	#endif
 	}
 
 	~state() {
@@ -80,7 +84,9 @@ public:
 	void calculate_minimax(root_node);
 
 	// return 0 means game not finished, else finished
-	int make_decision(state cur);
+
+	int make_decision(state* cur);
+	void node_eval(state * root_node);
 
 private:
 	void construct(int depth,state);
