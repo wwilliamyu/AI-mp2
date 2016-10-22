@@ -11,7 +11,7 @@
 #include <math.h>
 #include "sudoku.h"
 #include "chess.h"
-
+#define DEBUG 1
 using namespace std;
 
 /** 
@@ -27,6 +27,13 @@ int main(int argc, char** args) {
 			cout << "Wrong input format. Expected ./mp2 [s] [gridfile] [wordbank]"<<endl;
 			return 1;
 	}
+
+	if(args[1][0]=='f')
+	{
+		cout<<"starting the chess game"<<endl;
+		chess* cur=new chess();
+	}
+
 	if (args[1][0] == 's') {
 		ifstream gridfile(args[2]);
 		ifstream wordbank(args[3]);
@@ -54,8 +61,12 @@ int main(int argc, char** args) {
 		}
 		cout << "start to fill the sudoku!!" <<endl;
 		fillSudoku(sudokuGrid, words);
-	} else {
+	} 
+	else {
+		
 
 	}
+
+	
 	return 0;
 }
