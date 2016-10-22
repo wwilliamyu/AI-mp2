@@ -23,20 +23,19 @@ class chess
 public:
 	chess(){
 		cout<<"constructing state"<<endl;
-		// state first_state;
+		state first_state;
 		// current_state=first_state;
 	};
 
 	struct state {
 	int** maze;
 	int value;
-
 	state() {
-
 		maze = new int*[16];
 		for (int y = 0; y < 16; y++) {
+			maze[y]=new int[16];
 			for (int x = 0; x < 16; x++) {
-				// if maze[y][x]=0, then black, else white, 2 means nothing
+				// if maze[y][x]=0, then white, else black, 2 means nothing
 				maze[y][x]=2;
 				if (y == 0 || y == 1) {
 					maze[y][x] = 0;
@@ -46,6 +45,19 @@ public:
 				}
 			}
 		}
+		// #if DEBUG
+			for(int y=0;y<16;y++)
+			{
+				for(int x=0;x<16;x++)
+				{
+					if(maze[y][x]==2)
+					cout<<' ';
+					else
+						cout<<maze[y][x];
+				}
+				cout<<endl;
+			}
+		// #endif
 		
 	}
 
