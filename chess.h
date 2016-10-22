@@ -23,10 +23,10 @@ class chess
 public:
 	chess(){
 		cout<<"constructing state"<<endl;
-
-		state first_state;
-		current_state=first_state;
+		// state first_state;
+		// current_state=first_state;
 	};
+
 	struct state {
 	int** maze;
 	int value;
@@ -59,7 +59,7 @@ public:
 	std::vector<state> next_states;
 
 };
-	state current_state;
+	// state root_node;
 	void tree_construction();
 	// return 0 means game not finished, else finished
 	int make_decision(state cur);
