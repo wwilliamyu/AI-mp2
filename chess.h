@@ -76,6 +76,9 @@ public:
 	// state root_node;
 	void tree_construction(state curr_state, int depth, int player);
 
+	// traverse tree, calculating values for all states/nodes
+	void calculate_minimax(root_node);
+
 	// return 0 means game not finished, else finished
 	int make_decision(state cur);
 
