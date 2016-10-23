@@ -121,7 +121,6 @@ public:
 	// offensive is 0, defensive is 1, white player is 0,black is 1
 	void node_eval(state * leaf_node,int offensive,int player)
 	{
-
 		if(offensive==0)
 		{
 			int opponent_left=0;
@@ -149,6 +148,33 @@ public:
 		}
 			leaf_node->value=self_left;
 		}
+
+		if(leaf_node->value!=0)
+			{
+				cout<<"leaf_node value is : "<<leaf_node->value<<endl;
+				cout<<"the state is :"<<endl;
+				print_board(leaf_node);
+			}
+		for(int y=0;y<8;y++)
+		{
+			for(int x=0;x<8;x++)
+			{
+				//if opponent next move can make you dead, this should be avoided
+				// if white(0), oppenent move down+1, if black move up,opponent -1
+				if(leaf_node->board[y][x]==1-player&&player!=2&&((y+1-2*player)>8||(y+1-2*player)<0))
+					{
+						cout<<"reached end"<<endl;
+						leaf_node->value=-1000000;
+					}
+
+				if(leaf_node->board[y][x]==player&&player!=2&&((y-1+2*player)>8||(y-1+2*player)<0))
+					{
+						cout<<"reached end"<<endl;
+						leaf_node->value=1000000;
+					}
+			}
+		}
+		// cout<<endl;
 	};
 
 private:
