@@ -129,4 +129,48 @@ void chess::create_state(chess::state * curr, int prev_y, int prev_x, int new_y,
 	curr->next_states.push_back(temp);
 }
 
+void chess::print_tree(chess::state * root) {
+	if (root->next_states.empty()) {
+		cout << "========" << endl;
+		for (int i = 0; i < 8; i++) {
+			cout << '|' << endl;
+			for (int j = 0; j < 8; j++) {
+				if (root->board[i][j] == 0) {
+					cout << 'w';
+				}
+				if (root->board[i][j] == 1) {
+					cout << 'b';
+				}
+				if (root->board[i][j] == 2) {
+					cout << ' ';
+				}
 
+			}
+			cout << '|' << endl;
+		}
+		cout << "========" << endl;
+		return;
+	}
+
+	cout << "========" << endl;
+	for (int i = 0; i < 8; i++) {
+		cout << '|' << endl;
+		for (int j = 0; j < 8; j++) {
+			if (root->board[i][j] == 0) {
+				cout << 'w';
+			}
+			if (root->board[i][j] == 1) {
+				cout << 'b';
+			}
+			if (root->board[i][j] == 2) {
+				cout << ' ';
+			}
+
+		}
+		cout << '|' << endl;
+	}
+
+	for (int a = 0; a < root->next_states.size(); a++) {
+		print_tree(root->next_states[a]);
+	}
+}

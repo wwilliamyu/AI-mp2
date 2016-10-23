@@ -84,7 +84,7 @@ public:
 	void tree_construction(chess::state * curr_state, int depth, int player);
 	void construct_helper(chess::state * curr, int player, int forward);
 	void create_state(chess::state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
-
+	void print_tree(chess::state * root);
 	// traverse tree, calculating values for all states/nodes
 	void calculate_minimax(chess::state * root_node);
 	chess::state* alpha_prune(chess::state * root_node);
