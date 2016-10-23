@@ -30,10 +30,10 @@ public:
 					// if board[y][x]=0, then white, else black, 2 means nothing
 					board[y][x] = 2;
 					if (y == 0 || y == 1) {
-						board[y][x] = 0;
+						board[y][x] = 1;
 					}
 					if (y == 6 || y == 7) {
-						board[y][x] = 1;
+						board[y][x] = 0;
 					}
 				}
 			}
@@ -82,6 +82,7 @@ public:
 		root = new state();
 		cout<<"root is "<<endl;
 		print_board(root);
+
 	};
 	state* root;
 	void init(state * start);

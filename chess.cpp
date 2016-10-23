@@ -39,7 +39,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 		else {
 			new_player = 1;
 		}
-		tree_construction(curr->next_states[a], depth - 1, player, offensive);
+		tree_construction(curr->next_states[a], depth - 1, new_player, offensive);
 	}
 }
 
@@ -140,7 +140,6 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
-
 	print_board(temp);
 	delete temp;
 }

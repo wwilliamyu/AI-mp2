@@ -32,6 +32,7 @@ int main(int argc, char** args) {
 		chess game;
 		
 		game.init(game.root);
+		return 1;
 	}
 
 	if (argc != 4 && args[1][0] == 's') {
