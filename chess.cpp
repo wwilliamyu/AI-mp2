@@ -1,7 +1,7 @@
 #include "chess.h"
 
 using namespace std;
-void chess::tree_construction(chess::state * curr, int depth, int player) {
+void chess::tree_construction(state * curr, int depth, int player) {
 
 	// given current state
 
@@ -36,7 +36,7 @@ void chess::tree_construction(chess::state * curr, int depth, int player) {
 	}
 }
 
-void chess::construct_helper(chess::state * curr, int player, int forward) {
+void chess::construct_helper(state * curr, int player, int forward) {
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
 
@@ -76,7 +76,7 @@ void chess::construct_helper(chess::state * curr, int player, int forward) {
 	}
 }
 
-chess::state* chess::alpha_prune(chess::state * root_node){
+state* chess::alpha_prune(state * root_node){
 	int v=Max_Val(root_node,std::numeric_limits<int>::min(),std::numeric_limits<int>::max());
 	for(int i=0;i<root_node->next_states.size();i++)
 	{
@@ -86,7 +86,7 @@ chess::state* chess::alpha_prune(chess::state * root_node){
 	return NULL;
 }
 
-int chess::Min_Val(chess::state * node,int alpha,int beta) {
+int chess::Min_Val(state * node,int alpha,int beta) {
 	if(node->next_states.size()==0)
 		return node->value;
 
@@ -104,7 +104,7 @@ int chess::Min_Val(chess::state * node,int alpha,int beta) {
 	return v;
 }
 
-int chess::Max_Val(chess::state* node,int alpha,int beta){
+int chess::Max_Val(state* node,int alpha,int beta){
 	if(node->next_states.size()==0)
 		return node->value;
 	int v=std::numeric_limits<int>::min();
@@ -122,11 +122,15 @@ int chess::Max_Val(chess::state* node,int alpha,int beta){
 }
 
 
-void chess::create_state(chess::state * curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
-	chess::state * temp = curr;
+void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
+	state * temp = curr;
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
 }
 
+void chess::make_decision(state* current,state* next){
+	
+
+}
 

@@ -17,19 +17,8 @@ using namespace std;
 
 const int boardsize = 8;
 
-
-
-class chess {
-
+class state {
 public:
-
-	chess() {
-		cout << "constructing state" << endl;
-		state first_state;
-		// current_state=first_state;
-	};
-
-	struct state {
 		int ** board;
 		int value;
 
@@ -73,27 +62,55 @@ public:
 				delete board[y];	
 			}
 			delete board;
+
+
+			for(int i=0;i<next_states.size();i++)
+			{
+				remove(this->next_states[i]);
+			};
 		};
+		
+		void remove(state* cur){
+			for(int i=0;i<cur->next_states.size();i++)
+			{
+				remove(cur->next_states[i]);
+			}
+			delete cur;	
+		};
+
 
 		vector<state*> next_states;
 
 	};
 
+class chess {
+
+public:
+
+	chess() {
+		cout << "constructing state" << endl;
+		state first_state;
+		// current_state=first_state;
+	};
+
+
+
 
 	// state root_node;
-	void tree_construction(chess::state * curr_state, int depth, int player);
-	void construct_helper(chess::state * curr, int player, int forward);
-	void create_state(chess::state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
+	void tree_construction(state * curr_state, int depth, int player);
+	void construct_helper(state * curr, int player, int forward);
+	void create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
 
 	// traverse tree, calculating values for all states/nodes
-	void calculate_minimax(chess::state * root_node);
-	chess::state* alpha_prune(chess::state * root_node);
+	void calculate_minimax(state * root_node);
+	state* alpha_prune(state * root_node);
+	void make_decision(state* current,state * next);
 	// return 0 means game not finished, else finished
 	// 
 	// int make_decision(state* cur, boolean offensive, boolean defensive);
 
 	// offensive is 0, defensive is 1, white player is 0,black is 1
-	void node_eval(chess::state * leaf_node,int offensive,int player)
+	void node_eval(state * leaf_node,int offensive,int player)
 	{
 
 		if(offensive==0)
@@ -128,8 +145,8 @@ public:
 
 private:
 	void construct(int depth,state);
-	int Min_Val(chess::state* node,int alpha,int beta);
-	int Max_Val(chess::state* node,int alpha,int beta);
+	int Min_Val(state* node,int alpha,int beta);
+	int Max_Val(state* node,int alpha,int beta);
 };
 #endif
 
