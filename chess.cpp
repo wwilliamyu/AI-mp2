@@ -90,8 +90,8 @@ void alpha_prune(chess::state * root_node){
 int Min_Val(chess::state * node,int alpha,int beta) {
 	if(node->next_states.size()==0)
 		return node->value;
-
-	return 0;
+	else
+		return 0;
 }
 
 
