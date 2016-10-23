@@ -52,22 +52,22 @@ void construct_helper(curr, player, forward) {
 				} // else cannot create move forward, so do not create state
 
 				// LEFT DIAG
-				if (board[y+forward][x-1] == 2) { 
+				if (curr->board[y+forward][x-1] == 2) { 
 					// empty
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
-				if (board[y+forward][x-1] != player) { 
+				if (curr->board[y+forward][x-1] != player) { 
 					// enemy piece
 					create_state(curr, y, x, y+forward1, x-1, player);
 				}
 				// else cannot move left diag, there is ally piece
 
 				// RIGHT DIAG
-				if (board[y+forward][x+1] == 2) {
+				if (curr->board[y+forward][x+1] == 2) {
 					// empty
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
-				if (board[y+forward][x+1] != player) {
+				if (curr->board[y+forward][x+1] != player) {
 					// enemy piece
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
@@ -79,9 +79,9 @@ void construct_helper(curr, player, forward) {
 
 void create_state(state curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
 	state temp = curr;
-	temp.board[prev_y][prev_x] = 2; // empty
-	temp.board[new_y][new_x] = player; // white piece to left diag
-	curr.next_states.push_back(temp);
+	temp->board[prev_y][prev_x] = 2; // empty
+	temp->board[new_y][new_x] = player; // white piece to left diag
+	curr->next_states.push_back(temp);
 }
 
 
