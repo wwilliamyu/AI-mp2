@@ -19,7 +19,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 		node_eval(curr, offensive, player);
 		return;
 	}
-
+	cout << "BOB ROSS" << endl;
 	int forward;
 	if (player == 0) { // white player goes up
 		forward = -1;
@@ -27,9 +27,9 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 	if (player == 1) { // black player goes down
 		forward = 1;
 	}
+	cout << "BOB ROSS 1" << endl;
 	construct_helper(curr, player, forward);
 
-	
 	// for each of the next states, run recursive function on them
 	for (int a = 0; a < curr->next_states.size(); a++) {
 		int new_player;
@@ -46,33 +46,39 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 void chess::construct_helper(state * curr, int player, int forward) {
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
-
 			// for each piece, judge 3 possible moves
-			if (curr->board[y][x] == player) {
-
+			if (curr->board[y][x] == player
+				&& y + forward >= 0
+				&& y + forward < 8
+				&& x - 1 >= 0
+				&& x + 1 <= 8) {
 				// FORWARD
+				cout << "JOHN CENA2" << endl;
 				if (curr->board[y+forward][x] == 2) { // empty
-					
 					create_state(curr, y, x, y+forward, x, player);
-
 				} // else cannot create move forward, so do not create state
+				cout << "JOHN CENA3" << endl;
 
 				// LEFT DIAG
 				if (curr->board[y+forward][x-1] == 2) { 
 					// empty
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
+				cout << "JOHN CENA4" << endl;
 				if (curr->board[y+forward][x-1] != player) { 
 					// enemy piece
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
 				// else cannot move left diag, there is ally piece
 
+
 				// RIGHT DIAG
+				cout << "JOHN CENA5" << endl;
 				if (curr->board[y+forward][x+1] == 2) {
 					// empty
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
+				cout << "JOHN CENA6" << endl;
 				if (curr->board[y+forward][x+1] != player) {
 					// enemy piece
 					create_state(curr, y, x, y+forward, x+1, player);

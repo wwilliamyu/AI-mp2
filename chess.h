@@ -53,7 +53,6 @@ public:
 		#endif
 		};
 
-
 		state(const state &pre)
 		{
  			cout<<"start copying constructor"<<endl;	
@@ -119,7 +118,7 @@ public:
 		cout << "constructing state" << endl;
 		state first_state;
 		state newstate(first_state);
-		// root=&first_state;
+		root = &first_state;
 	};
 	state* root;
 	void init(state * start);
