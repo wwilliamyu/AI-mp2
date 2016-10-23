@@ -109,9 +109,9 @@ public:
 	void tree_construction(state * curr_state, int depth, int player, int offensive);
 	void construct_helper(state * curr, int player, int forward);
 	void create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
-	void print_tree(state * root);
+	int minimax(state * root_node, int max_or_min);
+
 	// traverse tree, calculating values for all states/nodes
-	void calculate_minimax(state * root_node);
 	state* alpha_prune(state * root_node);
 	void make_decision(state*& current,state * next);
 	// return 0 means game not finished, else finished

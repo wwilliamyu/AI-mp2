@@ -162,48 +162,33 @@ void chess::make_decision(state* &current,state* next){
 	print_board(current);
 	delete temp;
 }
-void chess::print_tree(state * root) {
-	if (root->next_states.empty()) {
-		cout << "========" << endl;
-		for (int i = 0; i < 8; i++) {
-			cout << '|' << endl;
-			for (int j = 0; j < 8; j++) {
-				if (root->board[i][j] == 0) {
-					cout << 'w';
-				}
-				if (root->board[i][j] == 1) {
-					cout << 'b';
-				}
-				if (root->board[i][j] == 2) {
-					cout << ' ';
-				}
 
-			}
-			cout << '|' << endl;
-		}
-		cout << "========" << endl;
-		return;
-	}
+int chess::minimax(state * root_node, int max_or_min) {
+	// already have tree, with leaf nodes that have values in them
+	
+	// beginning root node must be max
+	// max = 1, min = 0
 
-	cout << "========" << endl;
-	for (int i = 0; i < 8; i++) {
-		cout << '|' << endl;
-		for (int j = 0; j < 8; j++) {
-			if (root->board[i][j] == 0) {
-				cout << 'w';
-			}
-			if (root->board[i][j] == 1) {
-				cout << 'b';
-			}
-			if (root->board[i][j] == 2) {
-				cout << ' ';
-			}
-
-		}
-		cout << '|' << endl;
-	}
-
-	for (int a = 0; a < root->next_states.size(); a++) {
-		print_tree(root->next_states[a]);
-	}
+  	// if leaf node, return leaf node's value
+  	if (root_node->next_states.empty()) {
+  		return root_node->value;
+  	}
+  	if (max_or_min == 1) {
+  		long int best_value = -2147483647;
+  		for (int i = 0; i < root_node->next_states.size(); i++) {
+  			long int v = minimax(root_node->next_states[i], 0); // next is min
+  			best_value = std::max(best_value, v);
+  		}
+  		return best_value;
+  	}
+  	if (max_or_min == 0) {
+  		long int best_value = 2147483647;
+  		for (int j = 0; j < root_node->next_states.size(); j++) {
+  			long int v = minimax(root_node->next_states[j], 1); // next is max
+  			best_value = std::min(best_value, v);
+  		}
+  		return best_value;
+  	}
+  	// will return minimax value of root_node
+  	return 0;
 }
