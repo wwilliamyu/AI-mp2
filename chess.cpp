@@ -79,16 +79,25 @@ void construct_helper(curr, player, forward) {
 void chess::alpha_prune(state* root_node){
 // we will need four levels
 
-for(int i=0;i<root_node->states.size();i++)
-{
 
-
-}
 
 
 }
 
 int chess::Min_Val(state* node,int alpha,int beta){
+	if(state->next_states.size()==0)
+		return node->value;
+	int v=std::numeric_limits<int>::max();
+	for(int i=0;i<root_node->next_states.size();i++)
+	{
+		v=min(min(v,Max_Val(next_states[i])),min(alpha,beta));
+		if(v<=alpha)
+			return v;
+		beta=min(beta,v);
+	}
+}
+
+int chess::Max_Val(state* node,int alpha,int beta){
 	if(state->next_states.size()==0)
 		return node->value;
 }

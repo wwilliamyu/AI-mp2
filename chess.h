@@ -128,6 +128,8 @@ public:
 private:
 	void construct(int depth,state);
 	int Min_Val(state* node,int alpha,int beta);
+	int Max_Val(state* node,int alpha,int beta);
+
 
 };
 #endif
