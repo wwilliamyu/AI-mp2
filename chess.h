@@ -37,20 +37,6 @@ public:
 					}
 				}
 			}
-			#ifdef DEBUG
-			for(int y=0;y<8;y++)
-			{
-				for(int x=0;x<8;x++)
-				{
-					if(board[y][x]==2)
-					cout<<' ';
-					else
-						cout<<board[y][x];
-				}
-				cout<<endl;
-			}
-			cout<<endl<<"finished"<<endl;
-		#endif
 		};
 
 		state(const state &pre)
@@ -63,46 +49,23 @@ public:
 				board[y][x]=pre.board[y][x];
 				}
 			}
-
-
-			#ifdef DEBUG
-				cout<<"copying to a new state"<<endl;
-				for(int y=0;y<8;y++)
-				{
-					for(int x=0;x<8;x++)
-					{
-						if(board[y][x]==2)
-						cout<<' ';	
-						else
-							cout<<board[y][x];
-					}
-					cout<<endl;
-				}
-			#endif
 		};
 		
-
-
 		~state() {
-			// for (int y = 0; y < 8; y++)
-			// {
-			// 	delete board[y];	
-			// }
-			// delete board;
-
-
-			// for(int i=0;i<next_states.size();i++)
-			// {
-			// 	remove(this->next_states[i]);
-			// };
-		};
-		
+			remove(this);
+		};		
 		void remove(state* cur){
 			for(int i=0;i<cur->next_states.size();i++)
 			{
 				remove(cur->next_states[i]);
+				
 			}
-			delete cur;	
+
+			for (int y = 0; y < 8; y++) {
+					delete board[y] ;
+			}
+
+			delete [] board;
 		};
 
 
@@ -116,9 +79,9 @@ public:
 
 	chess() {
 		cout << "constructing state" << endl;
-		state first_state;
-		state newstate(first_state);
-		root = &first_state;
+		root = new state();
+		cout<<"root is "<<endl;
+		print_board(root);
 	};
 	state* root;
 	void init(state * start);
@@ -172,6 +135,20 @@ private:
 	void construct(int depth,state);
 	int Min_Val(state* node,int alpha,int beta);
 	int Max_Val(state* node,int alpha,int beta);
+	void print_board(state* node)
+	{
+		for(int y=0;y<8;y++)
+		{
+			for(int x=0;x<8;x++)
+			{
+				if(node->board[y][x]==2)
+				cout<<' ';	
+				else
+					cout<<node->board[y][x];
+			}
+			cout<<endl;
+		}
+	}
 };
 #endif
 

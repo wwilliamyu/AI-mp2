@@ -144,7 +144,7 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 }
 
 void chess::make_decision(state* &current,state* next){
-	state renewed=*next;
+	state renewed(*next);
 	delete current;
 	current=&renewed;	
 }
