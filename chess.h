@@ -82,10 +82,10 @@ public:
 
 	// traverse tree, calculating values for all states/nodes
 	void calculate_minimax(root_node);
-
+	void calculate_alphabeta(state* root_node)
 	// return 0 means game not finished, else finished
-
-	int make_decision(state* cur);
+	// 
+	int make_decision(state* cur, boolean offensive, boolean defensive);
 	void node_eval(state * root_node);
 
 private:
