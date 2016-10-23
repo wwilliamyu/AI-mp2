@@ -32,7 +32,8 @@ int main(int argc, char** args) {
 		cout<<"starting the chess game"<<endl;
 
 		chess game;
-		game.init(game.root);
+		
+		// game.init(game.root);
 	}
 
 	if (args[1][0] == 's') {

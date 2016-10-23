@@ -37,47 +37,65 @@ public:
 					}
 				}
 			}
-		};
-		state(state* pre)
-		{
-			state newone;
-			for (int y = 0; y < 8; y++) {
-				for (int x = 0; x < 8; x++) {
-				newone.board[y][x]=pre->board[y][x];
+			#ifdef DEBUG
+			for(int y=0;y<8;y++)
+			{
+				for(int x=0;x<8;x++)
+				{
+					if(board[y][x]==2)
+					cout<<' ';
+					else
+						cout<<board[y][x];
 				}
-			
+				cout<<endl;
 			}
-		}
+			cout<<endl<<"finished"<<endl;
+		#endif
+		};
+
+
+		state(const state &pre)
+		{
+ 			cout<<"start copying constructor"<<endl;	
+			board = new int*[8];
+			for (int y = 0; y < 8; y++) {
+				board[y] = new int[8];
+				for (int x = 0; x < 8; x++) {
+				board[y][x]=pre.board[y][x];
+				}
+			}
+
+
+			#ifdef DEBUG
+				cout<<"copying to a new state"<<endl;
+				for(int y=0;y<8;y++)
+				{
+					for(int x=0;x<8;x++)
+					{
+						if(board[y][x]==2)
+						cout<<' ';	
+						else
+							cout<<board[y][x];
+					}
+					cout<<endl;
+				}
+			#endif
+		};
 		
 
-	/*
-	#ifdef DEBUG
-		for(int y=0;y<16;y++)
-		{
-			for(int x=0;x<16;x++)
-			{
-				if(board[y][x]==2)
-				cout<<' ';
-				else
-					cout<<board[y][x];
-			}
-			cout<<endl;
-		}
-	#endif
-	*/
 
 		~state() {
-			for (int y = 0; y < 8; y++)
-			{
-				delete board[y];	
-			}
-			delete board;
+			// for (int y = 0; y < 8; y++)
+			// {
+			// 	delete board[y];	
+			// }
+			// delete board;
 
 
-			for(int i=0;i<next_states.size();i++)
-			{
-				remove(this->next_states[i]);
-			};
+			// for(int i=0;i<next_states.size();i++)
+			// {
+			// 	remove(this->next_states[i]);
+			// };
 		};
 		
 		void remove(state* cur){
@@ -100,7 +118,8 @@ public:
 	chess() {
 		cout << "constructing state" << endl;
 		state first_state;
-		root=&first_state;
+		state newstate(first_state);
+		// root=&first_state;
 	};
 	state* root;
 	void init(state * start);
@@ -111,7 +130,7 @@ public:
 	// traverse tree, calculating values for all states/nodes
 	void calculate_minimax(state * root_node);
 	state* alpha_prune(state * root_node);
-	void make_decision(state* current,state * next);
+	void make_decision(state*& current,state * next);
 	// return 0 means game not finished, else finished
 	// 
 	// int make_decision(state* cur, boolean offensive, boolean defensive);

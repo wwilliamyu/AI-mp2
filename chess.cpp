@@ -137,9 +137,10 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	delete temp;
 }
 
-void chess::make_decision(state* current,state* next){
-	
-
+void chess::make_decision(state* &current,state* next){
+	state renewed=*next;
+	delete current;
+	current=&renewed;	
 }
 void chess::print_tree(state * root) {
 	if (root->next_states.empty()) {
