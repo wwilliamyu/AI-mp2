@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <chrono> // C++11
 #include "sudoku.h"
 #include "chess.h"
 using namespace std;
@@ -22,10 +23,7 @@ using namespace std;
 * for game of breakthrough
 */
 int main(int argc, char** args) {
-	if (argc != 4 && args[1][0] == 's') {
-			cout << "Wrong input format. Expected ./mp2 [s] [gridfile] [wordbank]"<<endl;
-			return 1;
-	}
+	
 
 	if (args[1][0]=='c')
 	{
@@ -36,6 +34,11 @@ int main(int argc, char** args) {
 		// game.init(game.root);
 	}
 
+	if (argc != 4 && args[1][0] == 's') {
+			cout << "Wrong input format. Expected ./mp2 [s] [gridfile] [wordbank]"<<endl;
+			return 1;
+	}
+	
 	if (args[1][0] == 's') {
 		ifstream gridfile(args[2]);
 		ifstream wordbank(args[3]);
@@ -61,10 +64,34 @@ int main(int argc, char** args) {
 			transform(curWord->wordString.begin(), curWord->wordString.end(), curWord->wordString.begin(), ::toupper);
 			words.push_back(curWord);
 		}
-		cout << "start to fill the sudoku!!" <<endl;
-		fillSudoku(sudokuGrid, words);
-	}
+		Color::Modifier red(Color::FG_RED);
+		Color::Modifier def(Color::FG_DEFAULT);
+    	Color::Modifier blue(Color::FG_BLUE);
+    	Color::Modifier green(Color::FG_GREEN);
+    	Color::Modifier yellow(Color::FG_YELLOW);
 
-	
+	    std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now() ;
+	    cout << typeid(start).name() << endl;
+		cout << red << "--------------------start to fill the sudoku!!---------------------" << def <<endl;
+		csp * solution = new csp;
+		solution->nodeExpanded = 0;
+		fillSudoku(sudokuGrid, words, solution);	
+		cout << blue;
+		for (int i=0; i<9; i++) {
+			for (int j=0; j<9; j++) {
+				cout << sudokuGrid[i][j]->value;			
+			}
+			cout << endl;
+		}
+		cout << def;
+		cout << yellow;
+		for (int i =solution->mcvAssignment.size()-1; i >=0; i--) {
+			cout << solution->lcvAssignment[i].orientation << " " << solution->lcvAssignment[i].x << " " << solution->lcvAssignment[i].y << ": " << solution->mcvAssignment[i]->wordString << endl;
+		}
+		cout << green << "Number of nodes expanded is " << solution->nodeExpanded << endl;
+		std::chrono::time_point<std::chrono::steady_clock> end = std::chrono::steady_clock::now();
+	    std::cout << "Filling up the sudoku took " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count()
+	              << " milliseconds\n" << def << endl;
+	} 
 	return 0;
 }

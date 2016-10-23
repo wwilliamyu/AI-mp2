@@ -15,12 +15,35 @@
 
 using namespace std;
 
+
+namespace Color {
+    enum Code {
+        FG_RED      = 31,
+        FG_GREEN    = 32,
+        FG_YELLOW 	= 33,
+        FG_BLUE     = 36,
+        FG_DEFAULT  = 39,
+        BG_RED      = 41,
+        BG_GREEN    = 42,
+        BG_BLUE     = 44,
+        BG_DEFAULT  = 49
+    };
+    class Modifier {
+        Code code;
+    public:
+        Modifier(Code pCode) : code(pCode) {}
+        friend std::ostream&
+        operator<<(std::ostream& os, const Modifier& mod) {
+            return os << "\033[" << mod.code << "m";
+        }
+    };
+}
+
 class sudokuCell {
 	public:
 		char value;
 		int x;
 		int y;
-		int largeCellIdx;
 };
 
 class word {
@@ -51,19 +74,27 @@ class lcv {
 		lcv(): x(9), y(9), orientation('n'), totalNumValAvailable(0) {};
 };
 
-class backtrack {
-
+class csp {
+	public: 
+		vector<word*> mcvAssignment;
+		vector<lcv> lcvAssignment;
+		int nodeExpanded;
+		csp() {
+			this->nodeExpanded = 0;
+		}
 };
 
-bool fillSudoku( sudokuCell* sudokuGrid[9][9], vector<word*> words);
+
+bool sortMostConstrained (const word* lhs, const word * rhs);
+bool sortleastConstraining (const lcv lhs, const lcv rhs);
+
+bool fillSudoku( sudokuCell* sudokuGrid[9][9], vector<word*> words, csp* CSP);
 
 bool isAvailable( sudokuCell* sudokuGrid[9][9], int row, int col, char curChar);
 
-bool recursiveBacktracking (sudokuCell* sudokuGrid[9][9], vector<word*> words);
+vector<word*> findMCV(sudokuCell* sudokuGrid[9][9], vector<word*> words);
 
-word * findMCV(sudokuCell* sudokuGrid[9][9], vector<word*> words);
-
-lcv findLCV(sudokuCell* sudokuGrid[9][9], vector<word*> words, word * mcv);
+vector<lcv> findLCV(sudokuCell* sudokuGrid[9][9], vector<word*> words, word * mcv);
 
 int findLCV_numAvailable (sudokuCell* sudokuGrid[9][9], vector<word*> words, string wordString);
 

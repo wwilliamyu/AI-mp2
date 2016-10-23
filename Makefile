@@ -2,7 +2,7 @@ EXE = mp2
 OBJS = mp2.cpp sudoku.o chess.o
 
 COMPILER = g++
-COMPILER_OPTS = -c -g -std=c++11 -Wall -pedantic -Werror
+COMPILER_OPTS = -c -g -std=c++11 -Wall -pedantic -Werror 
 LINKER = g++
 
 all : $(EXE) 
