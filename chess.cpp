@@ -15,7 +15,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 	// player = 1 if black
 
 	// if reached leaf nodes, we are done
-	if (depth == 0) {
+	if (depth < 0) {
 		node_eval(curr, offensive, player);
 		return;
 	}
@@ -39,6 +39,8 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 		else {
 			new_player = 1;
 		}
+
+		cout<<"constructing tree level of "+to_string(depth-1)<<endl;	
 		tree_construction(curr->next_states[a], depth - 1, new_player, offensive);
 	}
 }
@@ -52,17 +54,20 @@ void chess::construct_helper(state * curr, int player, int forward) {
 				&& y + forward < 8) {
 				// FORWARD
 				if (curr->board[y+forward][x] !=player) { // empty
+					cout<<"moving forward"<<endl;
 					create_state(curr, y, x, y+forward, x, player);
 				} // else cannot create move forward, so do not create state
 				// LEFT DIAG
 				if (x-1>0 && curr->board[y+forward][x-1] != player) { 
 					// enemy piece
+					cout<<"moving left"<<endl;
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
 				// else cannot move left diag, there is ally piece
 				// RIGHT DIAG
 				if (x+1<8&&curr->board[y+forward][x+1] != player) {
 					// enemy piece
+					cout<<"moving right"<<endl;
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
 				// else cannot move right diag, there is ally piece
@@ -127,8 +132,12 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 
 void chess::make_decision(state* &current,state* next){
 	state renewed(*next);
+	cout<<"changing the state from"<<endl;
+	print_board(current);
 	delete current;
+	cout<<"to become"<<endl;
 	current=&renewed;	
+	print_board(current);
 }
 void chess::print_tree(state * root) {
 	if (root->next_states.empty()) {

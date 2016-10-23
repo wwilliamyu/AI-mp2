@@ -41,7 +41,6 @@ public:
 
 		state(const state &pre)
 		{
- 			cout<<"start copying constructor"<<endl;	
 			board = new int*[8];
 			for (int y = 0; y < 8; y++) {
 				board[y] = new int[8];
@@ -78,7 +77,7 @@ class chess {
 public:
 
 	chess() {
-		cout << "constructing state" << endl;
+		cout << "constructing initial state" << endl;
 		root = new state();
 		cout<<"root is "<<endl;
 		print_board(root);
@@ -105,9 +104,9 @@ public:
 		if(offensive==0)
 		{
 			int opponent_left=0;
-			for(int y=0;y<16;y++)
+			for(int y=0;y<8;y++)
 		{
-			for(int x=0;x<16;x++)
+			for(int x=0;x<8;x++)
 			{
 				if(leaf_node->board[y][x]==1-player)
 					opponent_left++;
@@ -119,9 +118,9 @@ public:
 		else
 		{
 			int self_left=0;
-			for(int y=0;y<16;y++)
+			for(int y=0;y<8;y++)
 		{
-			for(int x=0;x<16;x++)
+			for(int x=0;x<8;x++)
 			{
 				if(leaf_node->board[y][x]==1-player)
 					self_left++;
@@ -149,6 +148,7 @@ private:
 			}
 			cout<<endl;
 		}
+		cout<<endl;
 	}
 };
 #endif
