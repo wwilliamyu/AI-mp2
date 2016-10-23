@@ -17,8 +17,6 @@ using namespace std;
 
 const int boardsize = 8;
 
-
-
 class chess {
 
 public:

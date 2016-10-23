@@ -127,6 +127,7 @@ void chess::create_state(chess::state * curr, int prev_y, int prev_x, int new_y,
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
+	delete temp;
 }
 
 void chess::print_tree(chess::state * root) {
