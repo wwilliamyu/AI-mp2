@@ -53,18 +53,15 @@ void chess::construct_helper(state * curr, int player, int forward) {
 				&& x - 1 >= 0
 				&& x + 1 <= 8) {
 				// FORWARD
-				cout << "JOHN CENA2" << endl;
 				if (curr->board[y+forward][x] == 2) { // empty
 					create_state(curr, y, x, y+forward, x, player);
 				} // else cannot create move forward, so do not create state
-				cout << "JOHN CENA3" << endl;
 
 				// LEFT DIAG
 				if (curr->board[y+forward][x-1] == 2) { 
 					// empty
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
-				cout << "JOHN CENA4" << endl;
 				if (curr->board[y+forward][x-1] != player) { 
 					// enemy piece
 					create_state(curr, y, x, y+forward, x-1, player);
@@ -73,12 +70,10 @@ void chess::construct_helper(state * curr, int player, int forward) {
 
 
 				// RIGHT DIAG
-				cout << "JOHN CENA5" << endl;
 				if (curr->board[y+forward][x+1] == 2) {
 					// empty
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
-				cout << "JOHN CENA6" << endl;
 				if (curr->board[y+forward][x+1] != player) {
 					// enemy piece
 					create_state(curr, y, x, y+forward, x+1, player);
@@ -136,7 +131,8 @@ int chess::Max_Val(state* node,int alpha,int beta){
 
 
 void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
-	state * temp = curr;
+	state new_curr(*curr);
+	state * temp = &new_curr;
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
