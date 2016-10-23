@@ -4,7 +4,16 @@ using namespace std;
 
 
 void chess::init(state * start) {
-	tree_construction(start, 3, 0, 0);
+	int player=0;//white starts first
+	while(1){
+	tree_construction(start, 3, player, 0);
+	make_decision(start,alpha_prune(start));
+	// make_decision(start,start->next_states[0]);
+	char input;	
+	cin>>input;
+	player=1-player;
+	}
+
 }
 
 void chess::tree_construction(state * curr, int depth, int player, int offensive) {
@@ -19,7 +28,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 		node_eval(curr, offensive, player);
 		return;
 	}
-	cout << "BOB ROSS" << endl;
+	// cout << "BOB ROSS" << endl;
 	int forward;
 	if (player == 0) { // white player goes up
 		forward = -1;
@@ -27,7 +36,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 	if (player == 1) { // black player goes down
 		forward = 1;
 	}
-	cout << "BOB ROSS 1" << endl;
+	// cout << "BOB ROSS 1" << endl;
 	construct_helper(curr, player, forward);
 
 	// for each of the next states, run recursive function on them
@@ -40,7 +49,11 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 			new_player = 1;
 		}
 
-		cout<<"constructing tree level of "+to_string(depth-1)<<endl;	
+		if(depth==3)
+		{
+		cout<<"constructing tree level of "+to_string(depth)<<endl;	
+		print_board(curr);			
+		}
 		tree_construction(curr->next_states[a], depth - 1, new_player, offensive);
 	}
 }
@@ -49,29 +62,40 @@ void chess::construct_helper(state * curr, int player, int forward) {
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
 			// for each piece, judge 3 possible moves
+			// if reached the end state, no need to further build
+			// if(y + forward < 0||y + forward >= 8)
+			// {
+
+			// 	cout<<"reached other's base"<<endl;
+			// 	create_state(curr, y, x, y, x, player);
+			// 	curr->next_states[curr->next_states.size()-1]->value=100000;
+			// 	return;	
+			// }
+
 			if (curr->board[y][x] == player
 				&& y + forward >= 0
 				&& y + forward < 8) {
 				// FORWARD
 				if (curr->board[y+forward][x] !=player) { // empty
-					cout<<"moving forward"<<endl;
+					// cout<<"moving forward"<<endl;
 					create_state(curr, y, x, y+forward, x, player);
 				} // else cannot create move forward, so do not create state
 				// LEFT DIAG
-				if (x-1>0 && curr->board[y+forward][x-1] != player) { 
-					// enemy piece
-					cout<<"moving left"<<endl;
-					create_state(curr, y, x, y+forward, x-1, player);
-				}
+				// if (x-1>0 && curr->board[y+forward][x-1] != player) { 
+				// 	// enemy piece
+				// 	cout<<"moving left"<<endl;
+				// 	create_state(curr, y, x, y+forward, x-1, player);
+				// }
 				// else cannot move left diag, there is ally piece
 				// RIGHT DIAG
-				if (x+1<8&&curr->board[y+forward][x+1] != player) {
-					// enemy piece
-					cout<<"moving right"<<endl;
-					create_state(curr, y, x, y+forward, x+1, player);
-				}
+				// if (x+1<8&&curr->board[y+forward][x+1] != player) {
+				// 	// enemy piece
+				// 	cout<<"moving right"<<endl;
+				// 	create_state(curr, y, x, y+forward, x+1, player);
+				// }
 				// else cannot move right diag, there is ally piece
 			}
+
 		}
 	}
 }
@@ -127,17 +151,17 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
-	print_board(temp);
+	// print_board(temp);
 }
 
 void chess::make_decision(state* &current,state* next){
-	state renewed(*next);
+	state* temp=current;
 	cout<<"changing the state from"<<endl;
 	print_board(current);
-	delete current;
 	cout<<"to become"<<endl;
-	current=&renewed;	
+	current=new state(*next);	
 	print_board(current);
+	delete temp;
 }
 void chess::print_tree(state * root) {
 	if (root->next_states.empty()) {

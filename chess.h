@@ -54,19 +54,40 @@ public:
 			remove(this);
 		};		
 		void remove(state* cur){
+			if(cur==NULL)
+				return;
+
 			for(int i=0;i<cur->next_states.size();i++)
 			{
 				remove(cur->next_states[i]);
-				
 			}
+			// cout<<"removing board"<<endl;
 
+			// print_board(cur);
 			for (int y = 0; y < 8; y++) {
-					delete board[y] ;
-			}
+					delete [] cur->board[y] ;
+			// cout<<"removing pointer"+to_string(y)<<endl;
 
-			delete [] board;
+			}
+			delete [] cur->board;
 		};
 
+
+			void print_board(state* node)
+		{
+			for(int y=0;y<8;y++)
+			{
+				for(int x=0;x<8;x++)
+				{
+					if(node->board[y][x]==2)
+					cout<<' ';	
+					else
+						cout<<node->board[y][x];
+				}
+				cout<<endl;
+			}
+			cout<<endl;
+		}
 
 		vector<state*> next_states;
 
@@ -127,7 +148,6 @@ public:
 			}
 		}
 			leaf_node->value=self_left;
-
 		}
 	};
 
