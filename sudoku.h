@@ -1,3 +1,6 @@
+#ifndef _SUDOKU_H_
+#define _SUDOKU_H_
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -94,3 +97,5 @@ vector<word*> findMCV(sudokuCell* sudokuGrid[9][9], vector<word*> words);
 vector<lcv> findLCV(sudokuCell* sudokuGrid[9][9], vector<word*> words, word * mcv);
 
 int findLCV_numAvailable (sudokuCell* sudokuGrid[9][9], vector<word*> words, string wordString);
+
+#endif

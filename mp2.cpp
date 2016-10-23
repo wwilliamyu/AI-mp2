@@ -12,7 +12,6 @@
 #include <chrono> // C++11
 #include "sudoku.h"
 #include "chess.h"
-
 using namespace std;
 
 /** 
@@ -24,11 +23,22 @@ using namespace std;
 * for game of breakthrough
 */
 int main(int argc, char** args) {
-	if (argc != 4) {
+	
+
+	if (args[1][0]=='c')
+	{
+		cout<<"starting the chess game"<<endl;
+
+		chess game;
+		
+		// game.init(game.root);
+	}
+
+	if (argc != 4 && args[1][0] == 's') {
 			cout << "Wrong input format. Expected ./mp2 [s] [gridfile] [wordbank]"<<endl;
 			return 1;
 	}
-
+	
 	if (args[1][0] == 's') {
 		ifstream gridfile(args[2]);
 		ifstream wordbank(args[3]);
@@ -54,14 +64,13 @@ int main(int argc, char** args) {
 			transform(curWord->wordString.begin(), curWord->wordString.end(), curWord->wordString.begin(), ::toupper);
 			words.push_back(curWord);
 		}
-
 		Color::Modifier red(Color::FG_RED);
 		Color::Modifier def(Color::FG_DEFAULT);
     	Color::Modifier blue(Color::FG_BLUE);
     	Color::Modifier green(Color::FG_GREEN);
     	Color::Modifier yellow(Color::FG_YELLOW);
 
-	    auto start = std::chrono::steady_clock::now() ;
+	    std::chrono::time_point<std::chrono::steady_clock> start = std::chrono::steady_clock::now() ;
 	    cout << typeid(start).name() << endl;
 		cout << red << "--------------------start to fill the sudoku!!---------------------" << def <<endl;
 		csp * solution = new csp;
@@ -80,11 +89,9 @@ int main(int argc, char** args) {
 			cout << solution->lcvAssignment[i].orientation << " " << solution->lcvAssignment[i].x << " " << solution->lcvAssignment[i].y << ": " << solution->mcvAssignment[i]->wordString << endl;
 		}
 		cout << green << "Number of nodes expanded is " << solution->nodeExpanded << endl;
-		auto end = std::chrono::steady_clock::now();
+		std::chrono::time_point<std::chrono::steady_clock> end = std::chrono::steady_clock::now();
 	    std::cout << "Filling up the sudoku took " << std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count()
 	              << " milliseconds\n" << def << endl;
-	} else {
-
-	}
+	} 
 	return 0;
 }

@@ -131,7 +131,7 @@ bool fillSudoku (sudokuCell* sudokuGrid[9][9], vector<word*> words, csp* CSP) {
 		}
 		// cout << red << curMCV->wordString << " at [" << curLCV.x <<","<<curLCV.y <<"] orientation=" <<curLCV.orientation << " doesn't work!" << def <<endl;
 	} while (lcvVector.size() != 0);
-	cout << "all lcv failed" << endl;
+	// cout << "all lcv failed" << endl;
 	CSP->nodeExpanded++;
 	return false;
 
