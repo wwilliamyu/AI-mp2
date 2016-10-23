@@ -11,7 +11,6 @@
 #include <math.h>
 #include "sudoku.h"
 #include "chess.h"
-#define DEBUG 1
 using namespace std;
 
 /** 
@@ -31,7 +30,7 @@ int main(int argc, char** args) {
 	if(args[1][0]=='f')
 	{
 		cout<<"starting the chess game"<<endl;
-		chess* cur=new chess();
+		chess game;
 	}
 
 	if (args[1][0] == 's') {
