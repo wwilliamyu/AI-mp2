@@ -79,6 +79,8 @@ public:
 };
 	// state root_node;
 	void tree_construction(state curr_state, int depth, int player);
+	void construct_helper(state curr, int player, int forward);
+	void create_state(state curr, int prev_y, int prev_x, int new_y, int new_x, int player);
 
 	// traverse tree, calculating values for all states/nodes
 	void calculate_minimax(root_node);
