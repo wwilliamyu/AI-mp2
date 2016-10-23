@@ -1,7 +1,13 @@
 #include "chess.h"
 
 using namespace std;
-void chess::tree_construction(state * curr, int depth, int player) {
+
+
+void chess::init(state * start) {
+	tree_construction(start, 3, 0, 0);
+}
+
+void chess::tree_construction(state * curr, int depth, int player, int offensive) {
 
 	// given current state
 
@@ -10,6 +16,7 @@ void chess::tree_construction(state * curr, int depth, int player) {
 
 	// if reached leaf nodes, we are done
 	if (depth == 0) {
+		node_eval(curr, offensive, player);
 		return;
 	}
 
@@ -32,7 +39,7 @@ void chess::tree_construction(state * curr, int depth, int player) {
 		else {
 			new_player = 1;
 		}
-		tree_construction(curr->next_states[a], depth - 1, player);
+		tree_construction(curr->next_states[a], depth - 1, player, offensive);
 	}
 }
 
@@ -127,10 +134,55 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
+	delete temp;
 }
 
 void chess::make_decision(state* current,state* next){
 	
 
 }
+void chess::print_tree(state * root) {
+	if (root->next_states.empty()) {
+		cout << "========" << endl;
+		for (int i = 0; i < 8; i++) {
+			cout << '|' << endl;
+			for (int j = 0; j < 8; j++) {
+				if (root->board[i][j] == 0) {
+					cout << 'w';
+				}
+				if (root->board[i][j] == 1) {
+					cout << 'b';
+				}
+				if (root->board[i][j] == 2) {
+					cout << ' ';
+				}
 
+			}
+			cout << '|' << endl;
+		}
+		cout << "========" << endl;
+		return;
+	}
+
+	cout << "========" << endl;
+	for (int i = 0; i < 8; i++) {
+		cout << '|' << endl;
+		for (int j = 0; j < 8; j++) {
+			if (root->board[i][j] == 0) {
+				cout << 'w';
+			}
+			if (root->board[i][j] == 1) {
+				cout << 'b';
+			}
+			if (root->board[i][j] == 2) {
+				cout << ' ';
+			}
+
+		}
+		cout << '|' << endl;
+	}
+
+	for (int a = 0; a < root->next_states.size(); a++) {
+		print_tree(root->next_states[a]);
+	}
+}
