@@ -90,13 +90,13 @@ public:
 	chess() {
 		cout << "constructing state" << endl;
 		state first_state;
-		// current_state=first_state;
+		root=&first_state;
 	};
 
 
 
 
-	// state root_node;
+	state* root;
 	void tree_construction(state * curr_state, int depth, int player);
 	void construct_helper(state * curr, int player, int forward);
 	void create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
