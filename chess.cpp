@@ -49,20 +49,18 @@ void chess::construct_helper(state * curr, int player, int forward) {
 			// for each piece, judge 3 possible moves
 			if (curr->board[y][x] == player
 				&& y + forward >= 0
-				&& y + forward < 8
-				&& x - 1 >= 0
-				&& x + 1 <= 8) {
+				&& y + forward < 8) {
 				// FORWARD
 				if (curr->board[y+forward][x] == 2) { // empty
 					create_state(curr, y, x, y+forward, x, player);
 				} // else cannot create move forward, so do not create state
 
 				// LEFT DIAG
-				if (curr->board[y+forward][x-1] == 2) { 
+				if ( x - 1 >= 0&&curr->board[y+forward][x-1] == 2) { 
 					// empty
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
-				if (curr->board[y+forward][x-1] != player) { 
+				if (x-1<8 && curr->board[y+forward][x-1] != player) { 
 					// enemy piece
 					create_state(curr, y, x, y+forward, x-1, player);
 				}
@@ -70,11 +68,11 @@ void chess::construct_helper(state * curr, int player, int forward) {
 
 
 				// RIGHT DIAG
-				if (curr->board[y+forward][x+1] == 2) {
+				if (x+1<8&&curr->board[y+forward][x+1] == 2) {
 					// empty
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
-				if (curr->board[y+forward][x+1] != player) {
+				if (x+1<8&&curr->board[y+forward][x+1] != player) {
 					// enemy piece
 					create_state(curr, y, x, y+forward, x+1, player);
 				}
