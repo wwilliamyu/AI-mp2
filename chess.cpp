@@ -14,70 +14,74 @@ void tree_construction(state curr, int depth, int player) {
 		return;
 	}
 
-	if (player == 0) {
-		// white pieces only
+	int forward;
+	if (player == 0) { // white player goes up
+		forward = -1;
+	}
+	if (player == 1) { // black player goes down
+		forward = 1;
+	}
+	construct_helper(curr, player, forward);
 
-		// iterate through board, if it's white piece, then investigate
+	
+	// for each of the next states, run recursive function on them
+	for (int a = 0; a < curr.next_states.size(); a++) {
+		int new_player;
+		if (player == 1) {
+			new_player = 0;
+		}
+		else {
+			new_player = 1;
+		}
+		tree_construction(curr.next_states[a], depth - 1, player);
+	}
+}
 
-		for (int i = 0; i < 8, i++) {
-			for (int j = 0; j < 8; j++) {
-				// for each white piece, judge 3 possible moves
-				if (board[y][x] == 0) {
-					// check cell directly up
-					if (board[y-1][x] == 2) {
-						// can move forward
-						state temp = curr;
-						temp.board[y][x] = 2; // empty now
-						temp.board[y-1][x] = 0; // white piece forward
+void construct_helper(curr, player, forward) {
+	for (int y = 0; y < 8, y++) {
+		for (int x = 0; x < 8; x++) {
 
-						curr.next_states.push_back(temp); // add to next level
+			// for each piece, judge 3 possible moves
+			if (curr->board[y][x] == player) {
 
-						// create state
-					} // else cannot create move forward, so do not create state
+				// FORWARD
+				if (curr->board[y+forward][x] == 2) { // empty
+					
+					create_state(curr, y, x, y+forward, x, player);
 
-					// check cell left diagonal
-					if (board[y-1][x-1] == 0) {
-						// left diag is white
-						// cannot move
-					}
-					else if (board[y-1][x-1] == 1) {
-						// left diag is black
-						// capture, and move
-					}
-					else /* empty */ {
-						// left diag is empty
-						// move
-					}
+				} // else cannot create move forward, so do not create state
 
-					// check cell right diagonal
-					if (board[y-1][x+1] == 0) {
-
-					}
-					else if (board[y-1][x+1] == 0) {
-
-					}
-					else {
-
-					}
-					// NOTE : when create state, vector.push_back to vector next_states of curr_state
-					// can go forward
-
+				// LEFT DIAG
+				if (board[y+forward][x-1] == 2) { 
+					// empty
+					create_state(curr, y, x, y+forward, x-1, player);
 				}
+				if (board[y+forward][x-1] != player) { 
+					// enemy piece
+					create_state(curr, y, x, y+forward1, x-1, player);
+				}
+				// else cannot move left diag, there is ally piece
+
+				// RIGHT DIAG
+				if (board[y+forward][x+1] == 2) {
+					// empty
+					create_state(curr, y, x, y+forward, x+1, player);
+				}
+				if (board[y+forward][x+1] != player) {
+					// enemy piece
+					create_state(curr, y, x, y+forward, x+1, player);
+				}
+				// else cannot move right diag, there is ally piece
 			}
 		}
 	}
+}
 
-	if (player == 1) {
-		// black pieces only
-
-		// iterate through board, if it's black piece, then investigate
-	}
-
-	// for each of the next states, run recursive function on them
-	for (int a = 0; a < curr.next_states.size(); a++) {
-
-		tree_construction(curr.next_states[a], depth - 1, );
-	}
+void create_state(state curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
+	state temp = curr;
+	temp.board[prev_y][prev_x] = 2; // empty
+	temp.board[new_y][new_x] = player; // white piece to left diag
+	curr.next_states.push_back(temp);
 }
 
 
