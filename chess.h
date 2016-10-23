@@ -87,7 +87,7 @@ public:
 
 	// traverse tree, calculating values for all states/nodes
 	void calculate_minimax(chess::state * root_node);
-	void alpha_prune(chess::state * root_node);
+	chess::state* alpha_prune(chess::state * root_node);
 	// return 0 means game not finished, else finished
 	// 
 	// int make_decision(state* cur, boolean offensive, boolean defensive);

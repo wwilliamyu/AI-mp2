@@ -76,11 +76,14 @@ void chess::construct_helper(chess::state * curr, int player, int forward) {
 	}
 }
 
-void chess::alpha_prune(chess::state * root_node){
-// we will need four levels
-
-
-
+chess::state* chess::alpha_prune(chess::state * root_node){
+	int v=Max_Val(root_node,std::numeric_limits<int>::min(),std::numeric_limits<int>::max());
+	for(int i=0;i<root_node->next_states.size();i++)
+	{
+		if(v==root_node->next_states[i]->value)
+			return root_node->next_states[i];
+	}
+	return NULL;
 }
 
 int chess::Min_Val(chess::state * node,int alpha,int beta) {
@@ -92,7 +95,10 @@ int chess::Min_Val(chess::state * node,int alpha,int beta) {
 	{
 		v=min(v,Max_Val(node->next_states[i],alpha,beta));
 		if(v<=alpha)
+		{
+			node->value=v;
 			return v;
+		}
 		beta=min(beta,v);
 	}
 	return v;
@@ -101,12 +107,15 @@ int chess::Min_Val(chess::state * node,int alpha,int beta) {
 int chess::Max_Val(chess::state* node,int alpha,int beta){
 	if(node->next_states.size()==0)
 		return node->value;
-	int v=std::numeric_limits<int>::max();
+	int v=std::numeric_limits<int>::min();
 	for(int i=0;i<node->next_states.size();i++)
 	{
-		v=min(v,Max_Val(node->next_states[i],alpha,beta));
-		if(v<=alpha)
+		v=max(v,Min_Val(node->next_states[i],alpha,beta));
+		if(v>=beta)
+		{
+			node->value=v;
 			return v;
+		}
 		beta=min(beta,v);
 	}
 	return v;
