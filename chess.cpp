@@ -76,6 +76,24 @@ void construct_helper(curr, player, forward) {
 	}
 }
 
+void chess::alpha_prune(state* root_node){
+// we will need four levels
+
+for(int i=0;i<root_node->states.size();i++)
+{
+
+
+}
+
+
+}
+
+int chess::Min_Val(state* node,int alpha,int beta){
+	if(state->next_states.size()==0)
+		return node->value;
+}
+
+
 void create_state(state curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
 	state temp = curr;
 	temp->board[prev_y][prev_x] = 2; // empty

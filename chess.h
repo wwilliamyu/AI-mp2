@@ -74,7 +74,7 @@ public:
 		delete board;
 	}
 
-	vector<state> next_states;
+	vector<state*> next_states;
 
 };
 	// state root_node;
@@ -84,7 +84,7 @@ public:
 
 	// traverse tree, calculating values for all states/nodes
 	void calculate_minimax(state * root_node);
-	void alpha_prune(state* root_node);
+	state* alpha_prune(state* root_node);
 	// return 0 means game not finished, else finished
 	// 
 	// int make_decision(state* cur, boolean offensive, boolean defensive);
@@ -127,7 +127,7 @@ public:
 
 private:
 	void construct(int depth,state);
-
+	int Min_Val(state* node,int alpha,int beta);
 
 };
 #endif
