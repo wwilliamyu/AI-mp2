@@ -1,7 +1,7 @@
 #include "chess.h"
 
 using namespace std;
-void tree_construction(state curr, int depth, int player) {
+void chess::tree_construction(chess::state * curr, int depth, int player) {
 
 	// given current state
 
@@ -24,7 +24,7 @@ void tree_construction(state curr, int depth, int player) {
 
 	
 	// for each of the next states, run recursive function on them
-	for (int a = 0; a < curr.next_states.size(); a++) {
+	for (int a = 0; a < curr->next_states.size(); a++) {
 		int new_player;
 		if (player == 1) {
 			new_player = 0;
@@ -32,12 +32,12 @@ void tree_construction(state curr, int depth, int player) {
 		else {
 			new_player = 1;
 		}
-		tree_construction(curr.next_states[a], depth - 1, player);
+		tree_construction(curr->next_states[a], depth - 1, player);
 	}
 }
 
-void construct_helper(curr, player, forward) {
-	for (int y = 0; y < 8, y++) {
+void chess::construct_helper(chess::state * curr, int player, int forward) {
+	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
 
 			// for each piece, judge 3 possible moves
@@ -57,7 +57,7 @@ void construct_helper(curr, player, forward) {
 				}
 				if (curr->board[y+forward][x-1] != player) { 
 					// enemy piece
-					create_state(curr, y, x, y+forward1, x-1, player);
+					create_state(curr, y, x, y+forward, x-1, player);
 				}
 				// else cannot move left diag, there is ally piece
 
@@ -76,35 +76,45 @@ void construct_helper(curr, player, forward) {
 	}
 }
 
-void chess::alpha_prune(state* root_node){
+void chess::alpha_prune(chess::state * root_node){
 // we will need four levels
 
 
 
-
 }
 
-int chess::Min_Val(state* node,int alpha,int beta){
-	if(state->next_states.size()==0)
+int chess::Min_Val(chess::state * node,int alpha,int beta) {
+	if(node->next_states.size()==0)
 		return node->value;
+
 	int v=std::numeric_limits<int>::max();
-	for(int i=0;i<root_node->next_states.size();i++)
+	for(int i=0;i<node->next_states.size();i++)
 	{
-		v=min(min(v,Max_Val(next_states[i])),min(alpha,beta));
+		v=min(v,Max_Val(node->next_states[i],alpha,beta));
 		if(v<=alpha)
 			return v;
 		beta=min(beta,v);
 	}
+	return v;
 }
 
-int chess::Max_Val(state* node,int alpha,int beta){
-	if(state->next_states.size()==0)
+int chess::Max_Val(chess::state* node,int alpha,int beta){
+	if(node->next_states.size()==0)
 		return node->value;
+	int v=std::numeric_limits<int>::max();
+	for(int i=0;i<node->next_states.size();i++)
+	{
+		v=min(v,Max_Val(node->next_states[i],alpha,beta));
+		if(v<=alpha)
+			return v;
+		beta=min(beta,v);
+	}
+	return v;
 }
 
 
-void create_state(state curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
-	state temp = curr;
+void chess::create_state(chess::state * curr, int prev_y, int prev_x, int new_y, int new_x, int player) {
+	chess::state * temp = curr;
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
