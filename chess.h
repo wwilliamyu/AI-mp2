@@ -83,15 +83,51 @@ public:
 	void create_state(state curr, int prev_y, int prev_x, int new_y, int new_x, int player);
 
 	// traverse tree, calculating values for all states/nodes
-	void calculate_minimax(root_node);
-	void calculate_alphabeta(state* root_node)
+	void calculate_minimax(state * root_node);
+	void alpha_prune(state* root_node);
 	// return 0 means game not finished, else finished
 	// 
-	int make_decision(state* cur, boolean offensive, boolean defensive);
-	void node_eval(state * root_node);
+	// int make_decision(state* cur, boolean offensive, boolean defensive);
+
+
+
+	// offensive is 0, defensive is 1, white player is 0,black is 1
+	void node_eval(state * leaf_node,int offensive,int player);
+	{
+
+		if(offensive==0)
+		{
+			int opponent_left=0;
+			for(int y=0;y<16;y++)
+		{
+			for(int x=0;x<16;x++)
+			{
+				if(maze[y][x]==1-player)
+					opponent_left++;
+			}
+		}
+
+			leaf_node->value=16-opponent_left;
+		}
+		else
+		{
+			int self_left=0;
+			for(int y=0;y<16;y++)
+		{
+			for(int x=0;x<16;x++)
+			{
+				if(maze[y][x]==1-player)
+					self_left++;
+			}
+		}
+			leaf_node->value=self_left;
+
+		}
+	}
 
 private:
 	void construct(int depth,state);
+
 
 };
 #endif

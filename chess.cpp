@@ -1,7 +1,6 @@
 #include "chess.h"
 
 using namespace std;
-void chess::make_decision()
 void tree_construction(state curr, int depth, int player) {
 
 	// given current state
