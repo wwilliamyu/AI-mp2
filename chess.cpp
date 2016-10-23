@@ -1,7 +1,12 @@
 #include "chess.h"
 
 using namespace std;
-void chess::tree_construction(chess::state * curr, int depth, int player) {
+
+void chess::init(chess::state * start) {
+	tree_construction(start, 3, 0, 0);
+}
+
+void chess::tree_construction(chess::state * curr, int depth, int player, int offensive) {
 
 	// given current state
 
@@ -10,6 +15,7 @@ void chess::tree_construction(chess::state * curr, int depth, int player) {
 
 	// if reached leaf nodes, we are done
 	if (depth == 0) {
+		node_eval(curr, offensive, player);
 		return;
 	}
 
@@ -32,7 +38,7 @@ void chess::tree_construction(chess::state * curr, int depth, int player) {
 		else {
 			new_player = 1;
 		}
-		tree_construction(curr->next_states[a], depth - 1, player);
+		tree_construction(curr->next_states[a], depth - 1, player, offensive);
 	}
 }
 

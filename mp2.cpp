@@ -22,15 +22,16 @@ using namespace std;
 * for game of breakthrough
 */
 int main(int argc, char** args) {
-	if (argc != 4) {
+	if (argc != 4 && args[1][0] == 's') {
 			cout << "Wrong input format. Expected ./mp2 [s] [gridfile] [wordbank]"<<endl;
 			return 1;
 	}
 
-	if(args[1][0]=='f')
+	if (args[1][0]=='f')
 	{
 		cout<<"starting the chess game"<<endl;
 		chess game;
+		chess::init(game.first_state);
 	}
 
 	if (args[1][0] == 's') {
@@ -60,10 +61,6 @@ int main(int argc, char** args) {
 		}
 		cout << "start to fill the sudoku!!" <<endl;
 		fillSudoku(sudokuGrid, words);
-	} 
-	else {
-		
-
 	}
 
 	
