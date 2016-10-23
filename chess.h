@@ -38,7 +38,8 @@ public:
 				}
 			}
 		};
-		state(state* pre)
+
+		state(state * pre)
 		{
 			state newone;
 			for (int y = 0; y < 8; y++) {
@@ -100,7 +101,7 @@ public:
 	chess() {
 		cout << "constructing state" << endl;
 		state first_state;
-		root=&first_state;
+		root = &first_state;
 	};
 	state* root;
 	void init(state * start);
