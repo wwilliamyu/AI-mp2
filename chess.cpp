@@ -123,7 +123,6 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
 	print_board(temp);
-	delete temp;
 }
 
 void chess::make_decision(state* &current,state* next){
