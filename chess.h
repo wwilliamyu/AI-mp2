@@ -132,7 +132,6 @@ public:
 					opponent_left++;
 			}
 		}
-
 			leaf_node->value=16-opponent_left;
 		}
 		else
@@ -152,6 +151,7 @@ public:
 		if(leaf_node->value!=0)
 			{
 				cout<<"leaf_node value is : "<<leaf_node->value<<endl;
+				cout<<"player is"<<player<<endl;
 				cout<<"the state is :"<<endl;
 				print_board(leaf_node);
 			}
@@ -163,13 +163,13 @@ public:
 				// if white(0), oppenent move down+1, if black move up,opponent -1
 				if(leaf_node->board[y][x]==1-player&&player!=2&&((y+1-2*player)>8||(y+1-2*player)<0))
 					{
-						cout<<"reached end"<<endl;
+						// cout<<"reached end"<<endl;
 						leaf_node->value=-1000000;
 					}
 
 				if(leaf_node->board[y][x]==player&&player!=2&&((y-1+2*player)>8||(y-1+2*player)<0))
 					{
-						cout<<"reached end"<<endl;
+						// cout<<"reached end"<<endl;
 						leaf_node->value=1000000;
 					}
 			}
@@ -181,6 +181,30 @@ private:
 	void construct(int depth,state);
 	int Min_Val(state* node,int alpha,int beta);
 	int Max_Val(state* node,int alpha,int beta);
+
+	// return 1 means opponent wins
+	// return 2 means player wins
+	int gg(state* leaf_node,int player)
+	{
+		for(int y=0;y<8;y++)
+		{
+			for(int x=0;x<8;x++)
+			{
+				//if opponent next move can make you dead, this should be avoided
+				// if white(0), oppenent move down+1, if black move up,opponent -1
+				if(leaf_node->board[y][x]==1-player&&player!=2&&((y+1-2*player)>8||(y+1-2*player)<0))
+					{
+						return 1;
+					}
+
+				if(leaf_node->board[y][x]==player&&player!=2&&((y-1+2*player)>8||(y-1+2*player)<0))
+					{
+						return 2;
+					}
+			}
+		}
+		return 0;
+	}
 	void print_board(state* node)
 	{
 		for(int y=0;y<8;y++)

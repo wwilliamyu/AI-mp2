@@ -5,13 +5,21 @@ using namespace std;
 
 void chess::init(state * start) {
 	int player=0;//white starts first
-	while(1){
-	tree_construction(start, 4, player, 0);
-	make_decision(start,alpha_prune(start));
-	// make_decision(start,start->next_states[0]);
 	char input;	
-	cin>>input;
+	while(1)
+	{
+		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
+	tree_construction(start, 3, player, 0);
+	// make_decision(start,start->next_states[0]);
+	make_decision(start,alpha_prune(start));
+	if(gg(start,player)>0)
+	{
+		cout<<"game ends";
+		break;
+	}
 	player=1-player;
+	cin>>input;
+
 	}
 
 }
@@ -66,20 +74,20 @@ void chess::construct_helper(state * curr, int player, int forward) {
 					// cout<<"moving forward"<<endl;
 					create_state(curr, y, x, y+forward, x, player);
 				} // else cannot create move forward, so do not create state
-				// LEFT DIAG
+				// // LEFT DIAG
 				// if (x-1>0 && curr->board[y+forward][x-1] != player) { 
-				// 	// enemy piece
-				// 	cout<<"moving left"<<endl;
+				// // 	// enemy piece
+				// 	// cout<<"moving left"<<endl;
 				// 	create_state(curr, y, x, y+forward, x-1, player);
 				// }
-				// else cannot move left diag, there is ally piece
-				// RIGHT DIAG
+				// // else cannot move left diag, there is ally piece
+				// // RIGHT DIAG
 				// if (x+1<8&&curr->board[y+forward][x+1] != player) {
-				// 	// enemy piece
-				// 	cout<<"moving right"<<endl;
+				// // 	// enemy piece
+				// 	// cout<<"moving right"<<endl;
 				// 	create_state(curr, y, x, y+forward, x+1, player);
 				// }
-				// else cannot move right diag, there is ally piece
+				// // else cannot move right diag, there is ally piece
 			}
 
 		}
@@ -89,7 +97,7 @@ void chess::construct_helper(state * curr, int player, int forward) {
 state* chess::alpha_prune(state * root_node){
 	cout<<"start alpha prune"<<endl;
 	int v=Max_Val(root_node,std::numeric_limits<int>::min(),std::numeric_limits<int>::max());
-	cout<<"the value of the state is "<<v<<endl;
+	cout<<"the v is "<<v<<endl;
 
 	for(int i=0;i<root_node->next_states.size();i++)
 	{
@@ -106,8 +114,9 @@ state* chess::alpha_prune(state * root_node){
 int chess::Min_Val(state * node,int alpha,int beta) {
 	if(node->next_states.size()==0)
 		{
-			cout<<"the leaf node with Min agent is"<< node->value<<endl;
-			return node->value;}
+			// cout<<"the leaf node with Min agent is"<< node->value<<endl;
+			return node->value;
+		}
 
 	int v=std::numeric_limits<int>::max();
 	for(int i=0;i<node->next_states.size();i++)
@@ -116,7 +125,6 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 		node->value=v;
 		if(v<=alpha)
 		{
-			node->value=v;
 			return v;
 		}
 		beta=min(beta,v);
@@ -127,7 +135,7 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 int chess::Max_Val(state* node,int alpha,int beta){
 	if(node->next_states.size()==0)
 		{
-			cout<<"the leaf node with Max agent is"<< node->value<<endl;
+			// cout<<"the leaf node with Max agent is"<< node->value<<endl;
 			return node->value;
 		}
 	int v=std::numeric_limits<int>::min();
