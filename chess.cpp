@@ -2,6 +2,7 @@
 
 using namespace std;
 
+int count = 0;
 
 void chess::init(state * start) {
 	int player=0;//white starts first
@@ -9,8 +10,8 @@ void chess::init(state * start) {
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
 	tree_construction(start, 4, player, 0,player);
-	// int best_value = minimax(start, 1);
-	// make_decision(start, minimax_helper(start, best_value));
+	int best_value = minimax(start, 1);
+	make_decision(start, minimax_helper(start, best_value));
 	// tree_construction(start, 3, player, 0);
 	// make_decision(start, minimax_helper(start, minimax(start, 1)));
 	// make_decision(start,start->next_states[0]);
@@ -21,7 +22,7 @@ void chess::init(state * start) {
 	// print_tree(start);
 	// cin>>input;	
 		
-	make_decision(start,alpha_prune(start));
+	// make_decision(start,alpha_prune(start));
 	// char input;	
 	// while(1)
 	// {
@@ -35,11 +36,12 @@ void chess::init(state * start) {
 if(gg(start,player)>0)
 	{
 		cout<<"The game has ended." << endl;;
+		cout << "Number of nodes expanded: " << ::count <<endl;
 		break;
 	}
 	player=1-player;
-	char input;	
-	cin>>input;
+	//char input;	
+	//cin>>input;
 	}
 
 } 
@@ -219,6 +221,7 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	curr->next_states.push_back(temp);
 	// cout<<"pushed in the state"<<endl;
 	// print_board(curr->next_states[curr->next_states.size()-1]);
+	::count++;
 }
 
 void chess::make_decision(state* &current,state* next){
@@ -247,6 +250,7 @@ int chess::minimax(state * root_node, int max_or_min) {
   			long int v = minimax(root_node->next_states[i], 0); // next is min
   			best_value = std::max(best_value, v);
   		}
+  		root_node->value = best_value;
   		return best_value;
   	}
   	if (max_or_min == 0) {
@@ -255,6 +259,7 @@ int chess::minimax(state * root_node, int max_or_min) {
   			long int v = minimax(root_node->next_states[j], 1); // next is max
   			best_value = std::min(best_value, v);
   		}
+  		root_node->value = best_value;
   		return best_value;
   	}
   	// will return minimax value of root_node
@@ -264,7 +269,7 @@ int chess::minimax(state * root_node, int max_or_min) {
 state* chess::minimax_helper(state * root, int best_value) {
 
 	for (int i = 0; i < root->next_states.size(); i++) {
-		if (root->next_states[i]->value >= best_value) {
+		if (root->next_states[i]->value >= root->value) {
 			return root->next_states[i];
 		}
 	}
