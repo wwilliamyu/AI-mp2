@@ -4,7 +4,6 @@ using namespace std;
 
 
 void chess::init(state * start) {
-
 	int player=0;//white starts first
 	char input;	
 	while(1)
@@ -172,7 +171,7 @@ void chess::make_decision(state* &current,state* next){
 	delete temp;
 }
 
-state * chess::minimax(state * root_node, int max_or_min) {
+int chess::minimax(state * root_node, int max_or_min) {
 	// already have tree, with leaf nodes that have values in them
 	
 	// beginning root node must be max
@@ -180,31 +179,23 @@ state * chess::minimax(state * root_node, int max_or_min) {
 
   	// if leaf node, return leaf node's value
   	if (root_node->next_states.empty()) {
-  		return root_node;
+  		return root_node->value;
   	}
   	if (max_or_min == 1) {
-  		int best_value = -2147483647;
-  		state * best_node;
+  		long int best_value = -2147483647;
   		for (int i = 0; i < root_node->next_states.size(); i++) {
-  			state * v = minimax(root_node->next_states[i], 0); // next is min
-  			best_value = max(best_value, v->value);
-  			if (best_value == v->value) {
-  				best_node = v;
-  			}
+  			long int v = minimax(root_node->next_states[i], 0); // next is min
+  			best_value = std::max(best_value, v);
   		}
-  		return best_node;
+  		return best_value;
   	}
   	if (max_or_min == 0) {
-  		int best_value = 2147483647;
-  		state * best_node;
+  		long int best_value = 2147483647;
   		for (int j = 0; j < root_node->next_states.size(); j++) {
-  			state * v = minimax(root_node->next_states[j], 1); // next is max
-  			best_value = min(best_value, v->value);
-  			if (best_value == v->value) {
-  				best_node = v;
-  			}
+  			long int v = minimax(root_node->next_states[j], 1); // next is max
+  			best_value = std::min(best_value, v);
   		}
-  		return best_node;
+  		return best_value;
   	}
   	// will return minimax value of root_node
   	return 0;
