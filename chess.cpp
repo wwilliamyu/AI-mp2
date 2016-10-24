@@ -12,7 +12,7 @@ void chess::init(state * start) {
 	// int best_value = minimax(start, 1);
 	// make_decision(start, minimax_helper(start, best_value));
 	// tree_construction(start, 3, player, 0);
-	// make_decision(start, minimax_helper(start, minimax(start, 1)));
+	make_decision(start, minimax_helper(start, minimax(start, 1)));
 	// make_decision(start,start->next_states[0]);
 	// print_tree(start);
 	// cin>>input;
@@ -21,7 +21,7 @@ void chess::init(state * start) {
 	// print_tree(start);
 	// cin>>input;	
 		
-	make_decision(start,alpha_prune(start));
+	// make_decision(start,alpha_prune(start));
 	// char input;	
 	// while(1)
 	// {
