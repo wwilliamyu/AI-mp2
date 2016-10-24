@@ -139,15 +139,14 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 	{
 		int max=Max_Val(node->next_states[i],alpha,beta);
 		v=v<max? v:max;
-		print_board(node->next_states[i]);
-		if(v<=alpha)
+		if(v<alpha)
 		{
 			node->value=v;
 			return v;
 		}
 		beta=min(beta,v);
 	}
-	node->value=beta;
+	node->value=v;
 	return v;
 }
 
@@ -161,7 +160,7 @@ int chess::Max_Val(state* node,int alpha,int beta){
 	{
 		int min=Min_Val(node->next_states[i],alpha,beta);
 		v=v>min?v:min;
-		if(v>=beta)
+		if(v>beta)
 		{
 			node->value=v;
 			return v;
@@ -170,7 +169,7 @@ int chess::Max_Val(state* node,int alpha,int beta){
 	}
 	// string a;
 	// cin>>a;
-	node->value=alpha;
+	node->value=v;
 	return v;
 }
 
