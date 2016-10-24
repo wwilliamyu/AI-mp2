@@ -10,8 +10,7 @@ void chess::init(state * start) {
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
 	tree_construction(start, 3, player, 0);
-	int best_value = minimax(start, 1);
-	make_decision(start, minimax_helper(start, best_value));
+	make_decision(start, minimax_helper(start, minimax(start, 1)));
 	// make_decision(start,start->next_states[0]);
 	//make_decision(start,alpha_prune(start));
 	if(gg(start,player)>0)
@@ -208,6 +207,9 @@ state* chess::minimax_helper(state * root, int best_value) {
 		if (root->next_states[i]->value == best_value) {
 			return root->next_states[i];
 		}
+		else {
+			continue;
+		}
 	}
-	return root;
+	return NULL;
 }
