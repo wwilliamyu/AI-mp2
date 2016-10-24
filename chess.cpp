@@ -10,11 +10,11 @@ void chess::init(state * start) {
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
 
-	tree_construction(start, 3, player, 0);
-	int best_value = minimax(start, 1);
-	make_decision(start, minimax_helper(start, best_value));
+	tree_construction(start, 4, player, 0,player);
+	// int best_value = minimax(start, 1);
+	// make_decision(start, minimax_helper(start, best_value));
 	// make_decision(start,start->next_states[0]);
-	//make_decision(start,alpha_prune(start));
+	make_decision(start,alpha_prune(start));
 	if(gg(start,player)>0)
 	{
 		cout<<"game ends";
@@ -27,7 +27,7 @@ void chess::init(state * start) {
 
 }
 
-void chess::tree_construction(state * curr, int depth, int player, int offensive) {
+void chess::tree_construction(state * curr, int depth, int player, int offensive,int agent) {
 
 	// given current state
 
@@ -36,7 +36,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 
 	// if reached leaf nodes, we are done
 	if (depth == 0) {
-		node_eval(curr, offensive, player);
+		node_eval(curr, offensive, agent);
 		// cout<<to_string(curr->value)<<endl;
 		return;
 	}
@@ -59,7 +59,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 		// print_board(curr);			
 		}
 		//switch player
-		tree_construction(curr->next_states[a], depth - 1, 1-player, offensive);
+		tree_construction(curr->next_states[a], depth - 1, 1-player, offensive,agent);
 	}
 }
 
@@ -117,6 +117,7 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 	if(node->next_states.size()==0)
 		{
 			// cout<<"the leaf node with Min agent is"<< node->value<<endl;
+			// print_board(node);
 			return node->value;
 		}
 
@@ -124,16 +125,17 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 	for(int i=0;i<node->next_states.size();i++)
 	{
 		v=min(v,Max_Val(node->next_states[i],alpha,beta));
-		node->value=v;
 		if(v<=alpha)
 		{
+			node->value=v;
 			return v;
 		}
 		beta=min(beta,v);
 	}
-	// print_board(node);
 	// string a;
 	// cin>>a;
+	node->value=v;
+
 	return v;
 }
 
@@ -147,9 +149,9 @@ int chess::Max_Val(state* node,int alpha,int beta){
 	for(int i=0;i<node->next_states.size();i++)
 	{
 		v=max(v,Min_Val(node->next_states[i],alpha,beta));
-		node->value=v;
 		if(v>=beta)
 		{
+			node->value=v;
 			return v;
 		}
 		alpha=max(alpha,v);
@@ -157,6 +159,7 @@ int chess::Max_Val(state* node,int alpha,int beta){
 	// print_board(node);
 	// string a;
 	// cin>>a;
+	node->value=v;
 	return v;
 }
 

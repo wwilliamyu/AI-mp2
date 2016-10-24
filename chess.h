@@ -106,7 +106,7 @@ public:
 	};
 	state* root;
 	void init(state * start);
-	void tree_construction(state * curr_state, int depth, int player, int offensive);
+	void tree_construction(state * curr_state, int depth, int player, int offensive,int agent);
 	void construct_helper(state * curr, int player, int forward);
 	void create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
 	int minimax(state * root_node, int max_or_min);
@@ -202,6 +202,8 @@ private:
 					{
 						return 2;
 					}
+				if(leaf_node->value==16)
+					return 3;
 			}
 		}
 		return 0;
