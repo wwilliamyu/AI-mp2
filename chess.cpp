@@ -63,6 +63,7 @@ void chess::init(state * start) {
 			cout << "Number of moves in the game: " << ::moves <<endl;
 			cout << "Average number nodes expanded per move: " << ::count/::moves << endl;
 			double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+			cout << "Total time of execution: " << elapsed_secs << endl;
 			cout << "Average amount of time to make a move: " << elapsed_secs/::moves << endl;
 			break;
 		}
@@ -115,6 +116,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 				&& y + forward >= 0
 				&& y + forward < 8) {
 				// FORWARD
+				::count++;
 				if (curr->board[y+forward][x] ==2) { // empty
 					// cout<<"moving forward"<<endl;
 					create_state(curr, y, x, y+forward, x, player);					
@@ -228,7 +230,7 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	curr->next_states.push_back(temp);
 	// cout<<"pushed in the state"<<endl;
 	// print_board(curr->next_states[curr->next_states.size()-1]);
-	::count++;
+
 }
 
 void chess::make_decision(state* &current,state* next){
