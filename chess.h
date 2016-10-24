@@ -145,7 +145,7 @@ public:
 
 		if(offensive==0)
 		{
-			leaf_node->value=(16-opponent_left);
+			leaf_node->value=(16-opponent_left)*5+self_left;
 		}
 		else
 		{
@@ -192,6 +192,25 @@ private:
 	// return 2 means player wins
 	int gg(state* leaf_node,int player)
 	{
+		int opponent_left=0;
+			for(int y=0;y<8;y++)
+		{
+			for(int x=0;x<8;x++)
+			{
+				if(leaf_node->board[y][x]==1-player)
+					opponent_left++;
+			}
+		}
+
+			int self_left=0;
+			for(int y=0;y<8;y++)
+		{
+			for(int x=0;x<8;x++)
+			{
+				if(leaf_node->board[y][x]==player)
+					self_left++;
+			}
+		}
 		for(int y=0;y<8;y++)
 		{
 			for(int x=0;x<8;x++)
@@ -202,7 +221,7 @@ private:
 					{
 						return 1;
 					}
-				if(leaf_node->value==16)
+				if(self_left==0||opponent_left==0)
 					return 3;
 			}
 		}

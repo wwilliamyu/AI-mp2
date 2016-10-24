@@ -8,7 +8,7 @@ void chess::init(state * start) {
 	while(1)
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
-	tree_construction(start, 3, player, 0,player);
+	tree_construction(start, 4, player, 0,player);
 	// int best_value = minimax(start, 1);
 	// make_decision(start, minimax_helper(start, best_value));
 	// tree_construction(start, 3, player, 0);
@@ -20,6 +20,7 @@ void chess::init(state * start) {
 	// alpha_prune(start);
 	// print_tree(start);
 	// cin>>input;	
+		
 	make_decision(start,alpha_prune(start));
 	// char input;	
 	// while(1)
@@ -31,14 +32,14 @@ void chess::init(state * start) {
 	// make_decision(start, minimax_helper(start, best_value));
 	// // make_decision(start,start->next_states[0]);
 	// // make_decision(start,alpha_prune(start));
-	if(gg(start,player)>0)
+if(gg(start,player)>0)
 	{
 		cout<<"The game has ended." << endl;;
 		break;
 	}
 	player=1-player;
-	// char input;	
-	// cin>>input;
+	char input;	
+	cin>>input;
 	}
 
 } 
@@ -78,7 +79,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 	// cout<<"constructing tree level of "+to_string(depth)<<endl;	
 
 	for (int y = 0; y < 8; y++) {
-		for (int x = 0; x < 8; x++) {
+		for (int x = 0; x < 2; x++) {
 			// for each piece, judge 3 possible moves
 
 
@@ -91,15 +92,15 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 					create_state(curr, y, x, y+forward, x, player);					
 				} // else cannot create move forward, so do not create state
 				// LEFT DIAG
-				if (x-1>0 && curr->board[y+forward][x-1] != player) { 
+				// if (x-1>0 && curr->board[y+forward][x-1] != player) { 
 
-					create_state(curr, y, x, y+forward, x-1, player);
-				}
-				// else cannot move left diag, there is ally piece
-				// RIGHT DIAG
-				if (x+1<8&&curr->board[y+forward][x+1] != player) {
-					create_state(curr, y, x, y+forward, x+1, player);
-				}
+				// 	create_state(curr, y, x, y+forward, x-1, player);
+				// }
+				// // else cannot move left diag, there is ally piece
+				// // RIGHT DIAG
+				// if (x+1<8&&curr->board[y+forward][x+1] != player) {
+				// 	create_state(curr, y, x, y+forward, x+1, player);
+				// }
 				// else cannot move right diag, there is ally piece
 			}
 			
@@ -157,7 +158,7 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 	int v=std::numeric_limits<int>::max();
 	for(int i=0;i<node->next_states.size();i++)
 	{
-		v=min(v,Max_Val(node->next_states[i],alpha,beta));
+		v=v<Max_Val(node->next_states[i],alpha,beta)? v:Max_Val(node->next_states[i],alpha,beta);
 		cout<<"the Min_val state is"<<endl;
 		cout<< "the value for the next state is"<<v<<endl;
 		print_board(node->next_states[i]);
@@ -189,13 +190,13 @@ int chess::Max_Val(state* node,int alpha,int beta){
 	int v=std::numeric_limits<int>::min();
 	for(int i=0;i<node->next_states.size();i++)
 	{
-		v=max(v,Min_Val(node->next_states[i],alpha,beta));
+		v=v>Min_Val(node->next_states[i],alpha,beta)?v:Min_Val(node->next_states[i],alpha,beta);
 		cout<<"the Max_val state is"<<endl;
 		cout<< "the value for the next state is"<<v<<endl;
 		print_board(node->next_states[i]);
 		if(v>=beta)
 		{
-			node->value=alpha;
+			node->value=beta;
 			return v;
 		}
 		alpha=max(alpha,v);
