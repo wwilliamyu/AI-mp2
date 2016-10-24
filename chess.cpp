@@ -13,7 +13,7 @@ void chess::init(state * start) {
 	int best_value = minimax(start, 1);
 	make_decision(start, minimax_helper(start, best_value));
 	// make_decision(start,start->next_states[0]);
-	make_decision(start,alpha_prune(start));
+	//make_decision(start,alpha_prune(start));
 	if(gg(start,player)>0)
 	{
 		cout<<"game ends";
