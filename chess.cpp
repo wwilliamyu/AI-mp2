@@ -4,14 +4,14 @@ using namespace std;
 
 
 void chess::init(state * start) {
-	int player=0;//white starts first
-	while(1){
-	tree_construction(start, 4, player, 0);
-	make_decision(start,alpha_prune(start));
-	// make_decision(start,start->next_states[0]);
-	char input;	
-	cin>>input;
-	player=1-player;
+	int player = 0;//white starts first
+	while(1) {
+		tree_construction(start, 4, player, 0);
+		make_decision(start,alpha_prune(start));
+		// make_decision(start,start->next_states[0]);
+		char input;	
+		cin>>input;
+		player = 1-player;
 	}
 
 }
