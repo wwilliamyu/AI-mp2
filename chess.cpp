@@ -5,16 +5,21 @@ using namespace std;
 
 void chess::init(state * start) {
 	int player=0;//white starts first
-	char input;	
 	while(1)
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
-	tree_construction(start, 4, player, 0,player);
+	tree_construction(start, 3, player, 0,player);
 	// int best_value = minimax(start, 1);
 	// make_decision(start, minimax_helper(start, best_value));
 	// tree_construction(start, 3, player, 0);
 	// make_decision(start, minimax_helper(start, minimax(start, 1)));
 	// make_decision(start,start->next_states[0]);
+	// print_tree(start);
+	// cin>>input;
+
+	// alpha_prune(start);
+	// print_tree(start);
+	// cin>>input;	
 	make_decision(start,alpha_prune(start));
 	if(gg(start,player)>0)
 	{
@@ -22,12 +27,23 @@ void chess::init(state * start) {
 		break;
 	}
 	player=1-player;
-	cin>>input;
-
+	// char input;	
+	// cin>>input;
 	}
 
-}
+} 
 
+
+void chess::print_tree(state * node)
+{
+	for(int i=0;i<node->next_states.size();i++)
+	{
+		print_tree(node->next_states[i]);
+	}
+		// if(node->value>0)
+		print_board(node);
+	return;
+}
 void chess::tree_construction(state * curr, int depth, int player, int offensive,int agent) {
 
 	// given current state
@@ -37,11 +53,10 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 
 	// if reached leaf nodes, we are done
 	if (depth == 0) {
+		// cout<<"value for the leaf node is :"<<to_string(curr->value)<<endl;
 		node_eval(curr, offensive, agent);
-		// cout<<to_string(curr->value)<<endl;
 		return;
 	}
-	// cout << "BOB ROSS" << endl;
 	int forward;
 	if (player == 0) { // white player goes up
 		forward = -1;
@@ -49,22 +64,9 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 	if (player == 1) { // black player goes down
 		forward = 1;
 	}
-	// cout << "BOB ROSS 1" << endl;
-	construct_helper(curr, player, forward);
 
-	// for each of the next states, run recursive function on them
-	for (int a = 0; a < curr->next_states.size(); a++) {
-		if(depth==3)
-		{
-		// cout<<"constructing tree level of "+to_string(depth)<<endl;	
-		// print_board(curr);			
-		}
-		//switch player
-		tree_construction(curr->next_states[a], depth - 1, 1-player, offensive,agent);
-	}
-}
+	// cout<<"constructing tree level of "+to_string(depth)<<endl;	
 
-void chess::construct_helper(state * curr, int player, int forward) {
 	for (int y = 0; y < 8; y++) {
 		for (int x = 0; x < 8; x++) {
 			// for each piece, judge 3 possible moves
@@ -76,42 +78,66 @@ void chess::construct_helper(state * curr, int player, int forward) {
 				// FORWARD
 				if (curr->board[y+forward][x] !=player) { // empty
 					// cout<<"moving forward"<<endl;
-					create_state(curr, y, x, y+forward, x, player);
+					create_state(curr, y, x, y+forward, x, player);					
 				} // else cannot create move forward, so do not create state
-				// // LEFT DIAG
-				// if (x-1>0 && curr->board[y+forward][x-1] != player) { 
-				// // 	// enemy piece
-				// 	// cout<<"moving left"<<endl;
-				// 	create_state(curr, y, x, y+forward, x-1, player);
-				// }
-				// // else cannot move left diag, there is ally piece
-				// // RIGHT DIAG
-				// if (x+1<8&&curr->board[y+forward][x+1] != player) {
-				// // 	// enemy piece
-				// 	// cout<<"moving right"<<endl;
-				// 	create_state(curr, y, x, y+forward, x+1, player);
-				// }
-				// // else cannot move right diag, there is ally piece
+				// LEFT DIAG
+				if (x-1>0 && curr->board[y+forward][x-1] != player) { 
+				// 	// enemy piece
+					// cout<<"moving left"<<endl;
+					create_state(curr, y, x, y+forward, x-1, player);
+				}
+				// else cannot move left diag, there is ally piece
+				// RIGHT DIAG
+				if (x+1<8&&curr->board[y+forward][x+1] != player) {
+				// 	// enemy piece
+					// cout<<"moving right"<<endl;
+					create_state(curr, y, x, y+forward, x+1, player);
+				}
+				// else cannot move right diag, there is ally piece
 			}
-
+			
 		}
 	}
+	for (int a = 0; a < curr->next_states.size(); a++) {
+			// print_board(curr->next_states[a]);	
+			//switch player
+			tree_construction(curr->next_states[a], depth - 1, 1-player, offensive,agent);
+	}	
+	// print_tree(curr);
+
+
+		// char a;
+	// cin>>a;
+	// for each of the next states, run recursive function on them
+	// cout<<"the next state size is"<<curr->next_states.size()<<endl;
+
+}
+
+void chess::construct_helper(state * curr, int player, int forward,int agent) {
+
 }
 
 state* chess::alpha_prune(state * root_node){
-	cout<<"start alpha prune"<<endl;
+	// cout<<"start alpha prune"<<endl;
 	int v=Max_Val(root_node,std::numeric_limits<int>::min(),std::numeric_limits<int>::max());
 	cout<<"the v is "<<v<<endl;
-
+	// cout<<"next_states size is "<<root_node->next_states.size()<<endl;
+	int k=0;
 	for(int i=0;i<root_node->next_states.size();i++)
 	{
-		if(v==root_node->next_states[i]->value)
+		cout<<"theme next state index is"<<to_string(i)<<endl;
+		cout<<"the value is "<<root_node->next_states[i]->value<<endl;
+		print_board(root_node->next_states[i]);
+		if(v==(root_node->next_states[i]->value))
 		{
-			cout<<"the next state index is"<<to_string(i)<<endl;
-			return root_node->next_states[i];
+			cout<<"the state value is "<<root_node->next_states[i]->value<<endl;
+			print_board(root_node->next_states[i]);
+			// print_board(root_node->next_states[i]);
+			k=i;
 		}
 	}
-	return NULL;
+	return root_node->next_states[k];
+;
 }
 
 int chess::Min_Val(state * node,int alpha,int beta) {
@@ -121,46 +147,59 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 			// print_board(node);
 			return node->value;
 		}
-
 	int v=std::numeric_limits<int>::max();
 	for(int i=0;i<node->next_states.size();i++)
 	{
 		v=min(v,Max_Val(node->next_states[i],alpha,beta));
+		cout<<"the Min_val state is"<<endl;
+		cout<< "the value for the next state is"<<v<<endl;
+		print_board(node->next_states[i]);
+
 		if(v<=alpha)
 		{
-			node->value=v;
+			node->value=beta;
 			return v;
 		}
 		beta=min(beta,v);
 	}
 	// string a;
+	cout<<"the Min_val state is"<<endl;
+	cout<< "the best_value for the current state is"<<beta<<endl;
+	print_board(node);
 	// cin>>a;
-	node->value=v;
-
+	cout<<endl;
+	node->value=beta;
 	return v;
 }
 
 int chess::Max_Val(state* node,int alpha,int beta){
 	if(node->next_states.size()==0)
 		{
-			// cout<<"the leaf node with Max agent is"<< node->value<<endl;
+			// cout<<"reached the leaf node with Max agent is"<< node->value<<endl;
+			// print_board(node);
 			return node->value;
 		}
 	int v=std::numeric_limits<int>::min();
 	for(int i=0;i<node->next_states.size();i++)
 	{
 		v=max(v,Min_Val(node->next_states[i],alpha,beta));
+		cout<<"the Max_val state is"<<endl;
+		cout<< "the value for the next state is"<<v<<endl;
+		print_board(node->next_states[i]);
 		if(v>=beta)
 		{
-			node->value=v;
+			node->value=alpha;
 			return v;
 		}
 		alpha=max(alpha,v);
 	}
-	// print_board(node);
+
+	cout<<"the Max_val state is"<<endl;
+	cout<< "the best_value for the next state is"<<v<<endl;
+	print_board(node);
 	// string a;
 	// cin>>a;
-	node->value=v;
+	node->value=alpha;
 	return v;
 }
 
@@ -170,7 +209,8 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 	temp->board[prev_y][prev_x] = 2; // empty
 	temp->board[new_y][new_x] = player; // white piece to left diag
 	curr->next_states.push_back(temp);
-	// print_board(temp);
+	// cout<<"pushed in the state"<<endl;
+	// print_board(curr->next_states[curr->next_states.size()-1]);
 }
 
 void chess::make_decision(state* &current,state* next){
