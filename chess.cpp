@@ -9,7 +9,7 @@ void chess::init(state * start) {
 	while(1)
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
-	tree_construction(start, 3, player, 0);
+	tree_construction(start, 2, player, 0);
 	// make_decision(start,start->next_states[0]);
 	make_decision(start,alpha_prune(start));
 	if(gg(start,player)>0)
@@ -32,7 +32,7 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 	// player = 1 if black
 
 	// if reached leaf nodes, we are done
-	if (depth < 0) {
+	if (depth == 0) {
 		node_eval(curr, offensive, player);
 		// cout<<to_string(curr->value)<<endl;
 		return;
@@ -103,7 +103,6 @@ state* chess::alpha_prune(state * root_node){
 	{
 		if(v==root_node->next_states[i]->value)
 		{
-			// print_board(root_node);
 			cout<<"the next state index is"<<to_string(i)<<endl;
 			return root_node->next_states[i];
 		}
@@ -129,6 +128,9 @@ int chess::Min_Val(state * node,int alpha,int beta) {
 		}
 		beta=min(beta,v);
 	}
+	// print_board(node);
+	// string a;
+	// cin>>a;
 	return v;
 }
 
@@ -147,8 +149,11 @@ int chess::Max_Val(state* node,int alpha,int beta){
 		{
 			return v;
 		}
-		beta=min(beta,v);
+		alpha=max(alpha,v);
 	}
+	// print_board(node);
+	// string a;
+	// cin>>a;
 	return v;
 }
 
