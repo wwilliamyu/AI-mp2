@@ -5,7 +5,6 @@ using namespace std;
 
 void chess::init(state * start) {
 	int player=0;//white starts first
-<<<<<<< HEAD
 	while(1)
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
