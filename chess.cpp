@@ -1,18 +1,23 @@
 #include "chess.h"
+#include <ctime>
 
 using namespace std;
 
 int count = 0;
+int moves = 0;
 
 void chess::init(state * start) {
 	int player = 0;//white starts first
 	int loop = 0;
+	clock_t begin = clock();
 	while(1)
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
 		
-		// change offensive/defensive matters
-		//
+		// change offensive/defensive matters (2)
+		// change player/1-player matters (2)
+		// change depth(3/4) matters (2)
+		// change agent(player/1-player) matters
 		if (loop == 0) {
 			//offensive minimax
 			tree_construction(start, 3, player, 0, player);
@@ -21,15 +26,44 @@ void chess::init(state * start) {
 		}
 		else {
 			//defensive minimax
-			tree_construction(start, 3, player, 1, 1-player);
+			tree_construction(start, 3, player, 1, player);
 			make_decision(start, Min_Max(start));
 			loop = 0;
 		}
 
 		if(gg(start,player)>0)
 		{
-			cout<<"The game has ended." << endl;;
+			clock_t end = clock();
+			if (gg(start,player) == 1) {
+				cout<<"The game has ended. Black wins!" << endl;
+				int white_left = 0;
+				for(int y=0;y<8;y++){
+					for(int x=0;x<8;x++){
+						if(start->board[y][x]==0) {
+							white_left++;
+						}
+					}
+				}
+				cout << "White pieces left: " << white_left << endl;
+
+			}
+			if (gg(start,player) == 2) {
+				cout<<"The game has ended. White wins!" << endl;
+				int black_left = 0;
+				for(int y=0;y<8;y++){
+					for(int x=0;x<8;x++){
+						if(start->board[y][x]==1) {
+							black_left++;
+						}
+					}
+				}
+				cout << "Black pieces left: " << black_left << endl;
+			}
 			cout << "Number of nodes expanded: " << ::count <<endl;
+			cout << "Number of moves in the game: " << ::moves <<endl;
+			cout << "Average number nodes expanded per move: " << ::count/::moves << endl;
+			double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
+			cout << "Average amount of time to make a move: " << elapsed_secs/::moves << endl;
 			break;
 		}
 		player=1-player;
@@ -56,7 +90,6 @@ void chess::tree_construction(state * curr, int depth, int player, int offensive
 
 	// player = 0 if white,
 	// player = 1 if black
-
 	// if reached leaf nodes, we are done
 	if (depth == 0) {
 		// cout<<"value for the leaf node is :"<<to_string(curr->value)<<endl;
@@ -199,6 +232,8 @@ void chess::create_state(state * curr, int prev_y, int prev_x, int new_y, int ne
 }
 
 void chess::make_decision(state* &current,state* next){
+	::moves++;
+
 	state* temp=current;
 	cout<<"changing the state from"<<endl;
 	print_board(current);
