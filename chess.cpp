@@ -5,22 +5,36 @@ using namespace std;
 int count = 0;
 
 void chess::init(state * start) {
-	int player=0;//white starts first
+	int player = 0;//white starts first
+	int loop = 0;
 	while(1)
 	{
 		cout<<"play is "<<player<<" ; 0 is white, 1 is black"<<endl;
-	tree_construction(start, 3, player, 0,player);
-	// make_decision(start, Min_Max(start));
-	make_decision(start,alpha_prune(start));
-if(gg(start,player)>0)
-	{
-		cout<<"The game has ended." << endl;;
-		cout << "Number of nodes expanded: " << ::count <<endl;
-		break;
-	}
-	player=1-player;
-	// char input;	
-	// cin>>input;
+		
+		// change offensive/defensive matters
+		//
+		if (loop == 0) {
+			//offensive minimax
+			tree_construction(start, 3, player, 0, player);
+			make_decision(start, Min_Max(start));
+			loop = 1;
+		}
+		else {
+			//defensive minimax
+			tree_construction(start, 3, player, 1, 1-player);
+			make_decision(start, Min_Max(start));
+			loop = 0;
+		}
+
+		if(gg(start,player)>0)
+		{
+			cout<<"The game has ended." << endl;;
+			cout << "Number of nodes expanded: " << ::count <<endl;
+			break;
+		}
+		player=1-player;
+		// char input;	
+		// cin>>input;
 	}
 
 } 
