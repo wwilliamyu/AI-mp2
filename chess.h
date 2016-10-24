@@ -109,8 +109,7 @@ public:
 	void tree_construction(state * curr_state, int depth, int player, int offensive,int agent);
 	void construct_helper(state * curr, int player, int forward,int agent);
 	void create_state(state * curr, int prev_y, int prev_x, int new_y, int new_x, int player);
-	int minimax(state * root_node, int max_or_min);
-	state * minimax_helper(state * root, int best_value);
+
 
 	// traverse tree, calculating values for all states/nodes
 	state* alpha_prune(state * root_node);
@@ -145,7 +144,7 @@ public:
 
 		if(offensive==0)
 		{
-			leaf_node->value=(16-opponent_left)*5+self_left;
+			leaf_node->value=(16-opponent_left)*15+self_left*5;
 		}
 		else
 		{
@@ -187,6 +186,10 @@ private:
 	void construct(int depth,state);
 	int Min_Val(state* node,int alpha,int beta);
 	int Max_Val(state* node,int alpha,int beta);
+	int Min(state* node);
+	int Max (state* node);
+	state* Min_Max (state* node);
+
 	void print_tree(state* node);
 	// return 1 means opponent wins
 	// return 2 means player wins
