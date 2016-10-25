@@ -148,7 +148,7 @@ public:
 		}
 		else
 		{
-			leaf_node->value=self_left;
+			leaf_node->value=(16-opponent_left)*5+self_left*15;;
 		}
 
 		// if(leaf_node->value!=0)
