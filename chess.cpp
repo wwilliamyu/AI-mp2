@@ -12,7 +12,7 @@ void chess::init(state * start) {
 	tree_construction(start, 3, player, 0,player);
 	// make_decision(start, Min_Max(start));
 	make_decision(start,alpha_prune(start));
-if(gg(start,player)>0)
+	if(gg(start,player)>0)
 	{
 		cout<<"The game has ended." << endl;;
 		cout << "Number of nodes expanded: " << ::count <<endl;
@@ -22,6 +22,12 @@ if(gg(start,player)>0)
 	// char input;	
 	// cin>>input;
 	}
+
+	// test cases
+	//
+	//
+	//
+
 
 } 
 
